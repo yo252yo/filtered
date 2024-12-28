@@ -66,8 +66,8 @@ document.addEventListener('mouseup', (event) => {
     const dx = currentX - startX;
     const threshold = window.innerWidth * 0.3;
 
-    gradientLeft.style.opacity = 0.4;
-    gradientRight.style.opacity = 0.4;
+    gradientLeft.style.opacity = 0.5;
+    gradientRight.style.opacity = 0.5;
     gradientLeftText.style.color = 'rgba(0, 0, 0, 0.3)';
     gradientRightText.style.color = 'rgba(0, 0, 0, 0.3)';
 

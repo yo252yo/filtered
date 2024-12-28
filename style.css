@@ -31,7 +31,7 @@ body {
     bottom: 0;
     width: 150px;
     pointer-events: none;
-    opacity: 0.4;
+    opacity: 0.5;
     transition: opacity 0.2s ease;
     display: flex;
     justify-content: center;
