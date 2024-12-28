@@ -52,12 +52,25 @@ body {
     font-size: 60px;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.3);
-    transform: rotate(-90deg);
     transition: color 0.2s ease;
+}
+
+.gradient-right .gradient-text {
+    transform: rotate(-90deg);
+    position: fixed;
+    width: 600px;
+    top: 300px;
+
+    text-align: right;
 }
 
 .gradient-left .gradient-text {
     transform: rotate(90deg);
+    position: fixed;
+    text-align: left;
+
+    top: 300px;
+    width: 600px;
 }
 
 #scorebar {

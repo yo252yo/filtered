@@ -198,7 +198,7 @@ function gameOver() {
 function drawNewCard() {
     cardPhase = 0;
     gradientRightText.textContent = "OPEN";
-    gradientLeftText.textContent = "FILTER (-" + skipPenalty() + " viewers)";
+    gradientLeftText.textContent = "FILTER (-" + skipPenalty() + " 👤)";
 
     currentCardIndex++;
     updateScore();
@@ -209,7 +209,7 @@ function drawNewCard() {
     } else if (currentCardIndex < cards.length) {
         cardContentDiv.textContent = cards[currentCardIndex].text;
     } else {
-        cardContentDiv.textContent = "Lost! You have no more games to stream :/";
+        cardContentDiv.textContent = "You have no more games to stream :/";
         gameOver();
     }
 }
@@ -217,7 +217,7 @@ function drawNewCard() {
 function revealCard(card) {
     cardPhase = 1;
     gradientRightText.textContent = "PLAY";
-    gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " viewers)";
+    gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " 👤)";
 
     cardContentDiv.innerHTML = `
     ${card.conclusion}<hr>
