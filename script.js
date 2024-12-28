@@ -7,24 +7,24 @@ const gradientLeftText = gradientLeft.querySelector('.gradient-text');
 const gradientRightText = gradientRight.querySelector('.gradient-text');
 
 let isDragging = false;
-let isCooldown = false;
+let isDraggable = true;
 let startX = 0;
 let currentX = 0;
 
 
-function resetCard(soft) {
+function resetCardPosition(soft) {
     if (soft) {
         cardDiv.style.transition = 'transform 0.5s ease';
     }
 
     cardDiv.style.transform = 'translate(0, 0)';
     cardDiv.style.opacity = 1;
-    isCooldown = false;
+    isDraggable = true;
 }
-resetCard();
+resetCardPosition();
 
 cardDiv.addEventListener('mousedown', (event) => {
-    if (isDragging || isCooldown) return;
+    if (isDragging || !isDraggable) return;
 
     isDragging = true;
     startX = event.clientX;
@@ -58,7 +58,7 @@ document.addEventListener('mouseup', (event) => {
     if (!isDragging) return;
 
     isDragging = false;
-    isCooldown = true;
+    isDraggable = false;
 
     const dx = currentX - startX;
     const threshold = window.innerWidth * 0.3;
@@ -78,10 +78,10 @@ document.addEventListener('mouseup', (event) => {
             swipeLeft();
         }
 
-        setTimeout(() => { resetCard() }, 300);
+        setTimeout(() => { resetCardPosition() }, 300);
 
     } else {
-        resetCard(true);
+        resetCardPosition(true);
     }
 });
 
@@ -152,9 +152,7 @@ let gamesToStream = 5;
 
 const scoreDiv = document.getElementById('score');
 const gameCountDiv = document.getElementById('gamecount');
-// //const cardDiv = document.getElementById('card');
-// const skipButton = document.getElementById('skipButton');
-// const keepButton = document.getElementById('keepButton');
+
 
 function skipPenalty() {
     if (cardPhase > 0) {
@@ -179,7 +177,7 @@ function impactText(impact) {
 }
 
 function updateScore(change) {
-    score += change;
+    score += change || 0;
     if (score < 0) {
         score = 0;
     }
@@ -187,9 +185,12 @@ function updateScore(change) {
     scoreDiv.textContent = score;
     gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions}`;
 }
+updateScore();
+
 
 function drawNewCard() {
     currentCardIndex++;
+    updateScore();
 
     if (streamedGames >= gamesToStream) {
         cardContentDiv.textContent = "Won! You have successfully filled the stream! Your final score is: " + score;
@@ -271,4 +272,3 @@ function swipeRight() {
 // keepButton.addEventListener('click', keepCard);
 
 clearCard();
-updateScore(0);
