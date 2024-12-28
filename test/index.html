@@ -4,122 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swipe Game</title>
+    <title>Card Swiping Game</title>
     <style>
         body {
             margin: 0;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f5f5f5;
+            height: 100vh;
+            background: #f0f0f0;
             font-family: Arial, sans-serif;
-        }
-
-        #container {
-            width: 80%;
-            height: 90vh;
-            position: relative;
             overflow: hidden;
         }
 
-        #card {
-            width: 200px;
-            height: 200px;
-            background: #ff6f61;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .card {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: transform 0.2s, box-shadow 0.2s;
+            width: 300px;
+            height: 400px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .card.swipe-left {
+            transform: translate(-150%, -50%) rotate(-30deg);
+            opacity: 0;
+        }
+
+        .card.swipe-right {
+            transform: translate(150%, -50%) rotate(30deg);
+            opacity: 0;
+        }
+
+        .gradient {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .gradient-left {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 0, 0, 0.5), transparent);
+        }
+
+        .gradient-right {
+            right: 0;
+            background: linear-gradient(to left, rgba(0, 255, 0, 0.5), transparent);
         }
     </style>
 </head>
 
 <body>
-    <div id="container">
-        <div id="card">Card</div>
-    </div>
+    <div id="card" class="card">Swipe me</div>
+    <div id="gradientLeft" class="gradient gradient-left"></div>
+    <div id="gradientRight" class="gradient gradient-right"></div>
+
     <script>
-        const container = document.getElementById('container');
         const card = document.getElementById('card');
+        const gradientLeft = document.getElementById('gradientLeft');
+        const gradientRight = document.getElementById('gradientRight');
 
         let isDragging = false;
-        let startX, currentX;
+        let startX = 0;
+        let currentX = 0;
+        let windowWidth = window.innerWidth;
 
-        // Desktop: Mousemove to tilt card
-        container.addEventListener('mousemove', (e) => {
-            if (isDragging) return;
-
-            const { clientX } = e;
-            const containerWidth = container.offsetWidth;
-            const center = containerWidth / 2;
-            const offset = (clientX - center) / center;
-
-            // Tilt the card based on offset (-1 to 1)
-            card.style.transform = `translate(-50%, -50%) rotate(${offset * 10}deg)`;
-        });
-
-        // Desktop: Click to swipe
-        container.addEventListener('click', (e) => {
-            const { clientX } = e;
-            const containerWidth = container.offsetWidth;
-
-            if (clientX < containerWidth * 0.25) {
-                swipeCard('left');
-            } else if (clientX > containerWidth * 0.75) {
-                swipeCard('right');
-            }
-        });
-
-        // Mobile: Drag-and-drop functionality
-        card.addEventListener('mousedown', (e) => {
+        card.addEventListener('mousedown', (event) => {
             isDragging = true;
-            startX = e.clientX;
+            startX = event.clientX;
             card.style.transition = 'none';
         });
 
-        window.addEventListener('mousemove', (e) => {
+        document.addEventListener('mousemove', (event) => {
             if (!isDragging) return;
 
-            currentX = e.clientX;
-            const deltaX = currentX - startX;
-            card.style.transform = `translate(${deltaX}px, -50%) rotate(${deltaX / 20}deg)`;
+            currentX = event.clientX;
+            const dx = currentX - startX;
+            const rotation = dx / windowWidth * 30; // Maximum rotation of 30 degrees
+
+            card.style.transform = `translate(${dx}px, ${Math.abs(dx) * 0.2}px) rotate(${rotation}deg)`;
+
+            // Update gradient opacity
+            const threshold = windowWidth * 0.4;
+            const opacity = Math.min(Math.abs(dx) / threshold, 1);
+
+            if (dx > 0) {
+                gradientRight.style.opacity = opacity;
+                gradientLeft.style.opacity = 0;
+            } else {
+                gradientLeft.style.opacity = opacity;
+                gradientRight.style.opacity = 0;
+            }
         });
 
-        window.addEventListener('mouseup', () => {
+        document.addEventListener('mouseup', (event) => {
             if (!isDragging) return;
-
-            const containerWidth = container.offsetWidth;
-            const deltaX = currentX - startX;
-
-            if (deltaX > containerWidth * 0.25) {
-                swipeCard('right');
-            } else if (deltaX < -containerWidth * 0.25) {
-                swipeCard('left');
-            } else {
-                card.style.transition = 'transform 0.2s';
-                card.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-            }
 
             isDragging = false;
+            const dx = currentX - startX;
+            const threshold = windowWidth * 0.4;
+
+            gradientLeft.style.opacity = 0;
+            gradientRight.style.opacity = 0;
+
+            if (Math.abs(dx) > threshold) {
+                // Swiped left or right
+                card.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+
+                if (dx > 0) {
+                    card.classList.add('swipe-right');
+                    setTimeout(() => {
+                        card.textContent = 'Swiped Right';
+                    }, 500);
+                } else {
+                    card.classList.add('swipe-left');
+                    setTimeout(() => {
+                        card.textContent = 'Swiped Left';
+                    }, 500);
+                }
+            } else {
+                // Reset position
+                card.style.transition = 'transform 0.5s ease';
+                card.style.transform = 'translate(0, 0)';
+            }
         });
 
-        // Function to handle swipes
-        function swipeCard(direction) {
-            const offsetX = direction === 'left' ? '-200%' : '200%';
-            card.style.transition = 'transform 0.5s';
-            card.style.transform = `translate(${offsetX}, -50%) rotate(${direction === 'left' ? -30 : 30}deg)`;
-
-            // Display alert on swipe completion
-            setTimeout(() => {
-                alert(`You swiped ${direction}!`);
-                card.style.transition = 'none';
-                card.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-            }, 500);
-        }
+        // Prevent text selection during drag
+        document.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+        });
     </script>
 </body>
 
