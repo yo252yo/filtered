@@ -111,43 +111,109 @@ document.addEventListener('mousedown', (event) => {
 
 
 
-const cards = [
+const possibleCards = [
     {
-        text: "A shop management game about the Gritish Museum",
-        conclusion: "It is a pretty humorous, Recettear kind of game. You send teams of adventurers to pillage artifacts from colonized countries.",
-        impact: 500,
+        text: "A management game about the Dritish Museum",
+        conclusion: "It is a pretty humorous game similar to Recettear. You send teams of adventurers to pillage artifacts from colonized countries.",
+        impact: 800,
         risk: 0.3
     },
     {
-        text: "An abstract choice-based game about self-censorship",
-        conclusion: "It is Reigns-like game where you chose what you can or can't say on stream.",
+        text: "A Reigns-like choice game about censorship",
+        conclusion: "It is trying to make a point about how our political imagination has become formatted. Dry, but fortunately it's short.",
         impact: 100,
         risk: 0.1
     },
     {
-        text: "An economy game about bananas",
+        text: "An game about the history of banana cultivation",
         conclusion: "Oh no! It's actually about the bloody dictatorships that the Younited Fruit Company installed in South Anerica!",
         impact: 2000,
         risk: 0.8
     },
-    { text: "A board game adaptation of colonial land grabbing", conclusion: "Hits a nerve with many", impact: 800, risk: 0.6 },
-    { text: "A documentary-style game about the Dutch East India Company", conclusion: "Critically acclaimed!", impact: 1000, risk: 0.2 },
-    { text: "A simulation game exploring the role of international banks in shaping global poverty", conclusion: "Draws some controversy", impact: 600, risk: 0.7 },
-    { text: "A simple platformer about mining", conclusion: "It's actually a commentary on child labor in cobalt mines", impact: 700, risk: 0.5 },
-    { text: "A trivia game about spices", conclusion: "Unveils the brutal history of the spice trade", impact: 400, risk: 0.3 },
-    { text: "A clicker game about oil production", conclusion: "Criticized for being too on-the-nose", impact: 500, risk: 0.8 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
-    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 }
+    {
+        text: "A visual novel about someone's childhood",
+        conclusion: "It's about how their personal trauma shapes their current life. Maybe a bit sensitive?",
+        impact: 200,
+        risk: 0.2
+    },
+    {
+        text: "A remake of a previous game jam game",
+        conclusion: "It fits the theme, but isn't it a bit boring? Will chat mind?",
+        impact: 100,
+        risk: 0.4
+    },
+    {
+        text: "Seems like a run-of-the-mill JRPG",
+        conclusion: "It's about a group of ecoterrorists looking for relics of a past civilization. Will some people see a link with the real world?",
+        impact: 1000,
+        risk: 0.3
+    },
+    {
+        text: "A dating sim... seems SFW...",
+        conclusion: "You investigate the past of anthropomorphized corporations. It name drops some CEOs. Clearly absurd humor, but it smells like trouble.",
+        impact: 500,
+        risk: 0.8
+    },
+    {
+        text: "A strategy game about land grabbing",
+        conclusion: "There's already plenty of games like this. It's pretty much the whole genre. So what if borders are remnants of past bloodshed?",
+        impact: 400,
+        risk: 0.2
+    },
+    {
+        text: "Seems like a tower defense game",
+        conclusion: "Abort, abort, it's about how the terrorist state of Ivrael has been erasing historical borders of Balestine!",
+        impact: 2000,
+        risk: 0.7
+    },
+    {
+        text: "A twine game about history",
+        conclusion: "Actually it's almost like a powerpoint lecture about how there used to be alternatives to capitalism but none remain...",
+        impact: 600,
+        risk: 0.5
+    },
+    {
+        text: "An action game about the olympics",
+        conclusion: "It's very much focused on the vision of Pierre de Coubertin trying to push for an aristocratic colonial world order.",
+        impact: 300,
+        risk: 0.6
+    },
+    {
+        text: "A puzzle game about the history of the pieces in a smartphone",
+        conclusion: "Without much surprise, there's slavery involved every step of the way...",
+        impact: 800,
+        risk: 0.3
+    },
+
+    // { text: "A board game adaptation of colonial land grabbing", conclusion: "Hits a nerve with many", impact: 800, risk: 0.6 },
+    // { text: "A documentary-style game about the Dutch East India Company", conclusion: "Critically acclaimed!", impact: 1000, risk: 0.2 },
+    // { text: "A simulation game exploring the role of international banks in shaping global poverty", conclusion: "Draws some controversy", impact: 600, risk: 0.7 },
+    // { text: "A simple platformer about mining", conclusion: "It's actually a commentary on child labor in cobalt mines", impact: 700, risk: 0.5 },
+    // { text: "A trivia game about spices", conclusion: "Unveils the brutal history of the spice trade", impact: 400, risk: 0.3 },
+    // { text: "A clicker game about oil production", conclusion: "Criticized for being too on-the-nose", impact: 500, risk: 0.8 },
+    // { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
 ];
+
+
+// Function to generate a random list without duplicates
+function getRandomCards(cards, num) {
+    if (num > cards.length) {
+        throw new Error("Requested more cards than available in the deck");
+    }
+
+    // Shuffle the array using Fisher-Yates algorithm
+    const shuffled = [...cards];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+    }
+
+    // Return the first `num` elements
+    return shuffled.slice(0, num);
+}
+
+
+const cards = getRandomCards(possibleCards, 10);
 
 let currentCardIndex = -1;
 let score = 10000;
@@ -159,9 +225,9 @@ const gameCountDiv = document.getElementById('gamecount');
 
 function skipPenalty() {
     if (cardPhase > 0) {
-        return 1000;
+        return 1500;
     } else {
-        return 500;
+        return 1000;
     }
 }
 
