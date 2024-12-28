@@ -5,9 +5,9 @@ body {
     align-items: flex-start;
     padding-top: 50px;
     height: 100vh;
-    background: #f0f0f0;
     font-family: Arial, sans-serif;
     overflow: hidden;
+    background: linear-gradient(135deg, #F7E8CE, #E3A2A9);
 }
 
 .card {
@@ -49,7 +49,7 @@ body {
 }
 
 .gradient-text {
-    font-size: 20px;
+    font-size: 60px;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.3);
     transform: rotate(-90deg);
@@ -67,6 +67,7 @@ body {
     left: 0px;
     right: 0px;
     padding: 20px;
+    z-index: 5;
 
     background-color: #0e0e10;
 

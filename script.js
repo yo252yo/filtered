@@ -104,7 +104,7 @@ function drawNewCard() {
     }
 }
 
-function skipCard() {
+function swipeLeft() {
     drawNewCard();
     skippedGames++;
     updateScore(-skipPenalty());
@@ -142,7 +142,7 @@ function clearCard() {
     drawNewCard();
 }
 
-function keepCard() {
+function swipeRight() {
     const currentCard = cards[currentCardIndex];
     if (currentCardIndex >= cards.length) {
         return; //todo: this shouldnt happen better gameover
@@ -161,8 +161,8 @@ function keepCard() {
 
 }
 
-skipButton.addEventListener('click', skipCard);
-keepButton.addEventListener('click', keepCard);
+skipButton.addEventListener('click', swipeLeft);
+keepButton.addEventListener('click', swipeRight);
 
 clearCard();
 updateScore(0);
