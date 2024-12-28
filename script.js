@@ -1,6 +1,9 @@
 
 const cardDiv = document.getElementById('card');
 const cardContentDiv = document.getElementById('cardContent');
+const cardHeaderDiv = document.getElementById('cardHeader');
+const cardFooterDiv = document.getElementById('cardFooter');
+
 const gradientLeft = document.getElementById('gradientLeft');
 const gradientRight = document.getElementById('gradientRight');
 const gradientLeftText = gradientLeft.querySelector('.gradient-text');
@@ -203,12 +206,18 @@ function drawNewCard() {
     currentCardIndex++;
     updateScore();
 
+    cardFooterDiv.textContent = "heart";
+
     if (score <= 0) {
+        cardHeaderDiv.textContent = "Game over";
         cardContentDiv.textContent = "Lost! You have lost all your viewers :(";
         gameOver();
     } else if (currentCardIndex < cards.length) {
+        cardHeaderDiv.textContent = "The next game is...";
         cardContentDiv.textContent = cards[currentCardIndex].text;
+        cardFooterDiv.textContent = "Swipe card left or right to chose";
     } else {
+        cardHeaderDiv.textContent = "Game over";
         cardContentDiv.textContent = "You have no more games to stream :/";
         gameOver();
     }
@@ -218,6 +227,9 @@ function revealCard(card) {
     cardPhase = 1;
     gradientRightText.textContent = "PLAY";
     gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " 👤)";
+
+    cardHeaderDiv.textContent = "At first glance...";
+    cardFooterDiv.textContent = "Swipe card left or right to confirm";
 
     cardContentDiv.innerHTML = `
     ${card.conclusion}<hr>
@@ -229,6 +241,9 @@ function resolveCard(card) {
     gradientRightText.textContent = "NEXT";
     gradientLeftText.textContent = "NEXT";
     cardPhase = 2;
+
+    cardHeaderDiv.textContent = "Outcome...";
+    cardFooterDiv.textContent = "Swipe card left or right for next game";
 
     streamedGames++;
 

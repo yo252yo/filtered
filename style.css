@@ -14,19 +14,43 @@ body {
     position: absolute;
     width: 300px;
     height: 400px;
-    background: #F892A1;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: #d47fa7;
+    box-shadow:
+        0 8px 10px rgba(0, 0, 0, 0.2),
+        0 4px 15px rgba(212, 127, 167, 0.4),
+        0 0 20px rgba(212, 127, 167, 0.7);
     border: 3px solid #FFE4D5;
     color: #FFE4D5;
     padding: 30px;
     text-align: center;
     border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
+    display: block;
+    font-size: 30px;
     font-weight: bold;
     transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#cardHeader {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    margin-top: -20px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+#cardFooter {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    margin-top: -20px;
+    text-transform: uppercase;
+    bottom: 0px;
+    position: absolute;
+    text-align: center;
+}
+
+.cardContent {
+    height: 100%;
+    vertical-align: middle;
 }
 
 .gradient {
