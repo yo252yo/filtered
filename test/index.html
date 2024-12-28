@@ -32,7 +32,7 @@
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
 
-        .card.swipe-left {
+        /* .card.swipe-left {
             transform: translate(-150%, -50%) rotate(-30deg);
             opacity: 0;
         }
@@ -40,7 +40,7 @@
         .card.swipe-right {
             transform: translate(150%, -50%) rotate(30deg);
             opacity: 0;
-        }
+        } */
 
         .gradient {
             position: absolute;
@@ -48,8 +48,11 @@
             bottom: 0;
             width: 100px;
             pointer-events: none;
-            opacity: 0;
+            opacity: 0.4;
             transition: opacity 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .gradient-left {
@@ -61,18 +64,36 @@
             right: 0;
             background: linear-gradient(to left, rgba(0, 255, 0, 0.5), transparent);
         }
+
+        .gradient-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.3);
+            transform: rotate(-90deg);
+            transition: color 0.2s ease;
+        }
+
+        .gradient-left .gradient-text {
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 
 <body>
     <div id="card" class="card">Swipe me</div>
-    <div id="gradientLeft" class="gradient gradient-left"></div>
-    <div id="gradientRight" class="gradient gradient-right"></div>
+    <div id="gradientLeft" class="gradient gradient-left">
+        <div class="gradient-text">FILTER</div>
+    </div>
+    <div id="gradientRight" class="gradient gradient-right">
+        <div class="gradient-text">PLAY</div>
+    </div>
 
     <script>
         const card = document.getElementById('card');
         const gradientLeft = document.getElementById('gradientLeft');
         const gradientRight = document.getElementById('gradientRight');
+        const gradientLeftText = gradientLeft.querySelector('.gradient-text');
+        const gradientRightText = gradientRight.querySelector('.gradient-text');
 
         let isDragging = false;
         let startX = 0;
@@ -101,9 +122,11 @@
             if (dx > 0) {
                 gradientRight.style.opacity = opacity;
                 gradientLeft.style.opacity = 0;
+                gradientRightText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
             } else {
                 gradientLeft.style.opacity = opacity;
                 gradientRight.style.opacity = 0;
+                gradientLeftText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
             }
         });
 
@@ -114,24 +137,32 @@
             const dx = currentX - startX;
             const threshold = windowWidth * 0.4;
 
-            gradientLeft.style.opacity = 0;
-            gradientRight.style.opacity = 0;
+            gradientLeft.style.opacity = 0.4;
+            gradientRight.style.opacity = 0.4;
+            gradientLeftText.style.color = 'rgba(0, 0, 0, 0.3)';
+            gradientRightText.style.color = 'rgba(0, 0, 0, 0.3)';
 
             if (Math.abs(dx) > threshold) {
                 // Swiped left or right
                 card.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
 
                 if (dx > 0) {
-                    card.classList.add('swipe-right');
-                    setTimeout(() => {
-                        card.textContent = 'Swiped Right';
-                    }, 500);
+                    //  card.classList.add('swipe-right');
+                    //  setTimeout(() => {
+                    card.textContent = 'Swiped Right';
+                    //  }, 500);
                 } else {
-                    card.classList.add('swipe-left');
-                    setTimeout(() => {
-                        card.textContent = 'Swiped Left';
-                    }, 500);
+                    //  card.classList.add('swipe-left');
+                    //  setTimeout(() => {
+                    card.textContent = 'Swiped Left';
+                    //  }, 500);
                 }
+
+                setTimeout(() => {
+                    card.style.transition = 'transform 0.5s ease';
+                    card.style.transform = 'translate(0, 0)';
+                }, 1000);
+
             } else {
                 // Reset position
                 card.style.transition = 'transform 0.5s ease';
