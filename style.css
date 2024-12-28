@@ -14,8 +14,12 @@ body {
     position: absolute;
     width: 300px;
     height: 400px;
-    background: white;
+    background: #F892A1;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 3px solid #FFE4D5;
+    color: #FFE4D5;
+    padding: 30px;
+    text-align: center;
     border-radius: 16px;
     display: flex;
     justify-content: center;
