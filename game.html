@@ -6,18 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filtered!</title>
 
-
     <link rel="stylesheet" href="style.css">
-
     <script src="script.js" defer></script>
 
 </head>
 
 <body>
-    <div id="card">Welcome to the game!</div>
-    <div id="buttons">
-        <button id="skipButton">Skip</button>
-        <button id="keepButton">Keep</button>
+    <div id="card" class="card">
+        <div id="cardContent"></div>
+    </div>
+    <div id="gradientLeft" class="gradient gradient-left">
+        <div class="gradient-text">FILTER</div>
+    </div>
+    <div id="gradientRight" class="gradient gradient-right">
+        <div class="gradient-text">PLAY</div>
     </div>
 
     <div id="scorebar">
@@ -27,7 +29,6 @@
             <div id="score" style="display: inline-block;"></div>
         </div>
     </div>
-
 
 </body>
 

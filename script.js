@@ -1,4 +1,110 @@
 
+const cardDiv = document.getElementById('card');
+const cardContentDiv = document.getElementById('cardContent');
+const gradientLeft = document.getElementById('gradientLeft');
+const gradientRight = document.getElementById('gradientRight');
+const gradientLeftText = gradientLeft.querySelector('.gradient-text');
+const gradientRightText = gradientRight.querySelector('.gradient-text');
+
+let isDragging = false;
+let isCooldown = false;
+let startX = 0;
+let currentX = 0;
+
+
+function resetCard(soft) {
+    if (soft) {
+        cardDiv.style.transition = 'transform 0.5s ease';
+    }
+
+    cardDiv.style.transform = 'translate(0, 0)';
+    cardDiv.style.opacity = 1;
+    isCooldown = false;
+}
+resetCard();
+
+cardDiv.addEventListener('mousedown', (event) => {
+    if (isDragging || isCooldown) return;
+
+    isDragging = true;
+    startX = event.clientX;
+    cardDiv.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', (event) => {
+    if (!isDragging) return;
+
+    currentX = event.clientX;
+    const dx = currentX - startX;
+    const rotation = dx / window.innerWidth * 30; // Maximum rotation of 30 degrees
+
+    cardDiv.style.transform = `translate(${dx}px, ${Math.abs(dx) * 0.2}px) rotate(${rotation}deg)`;
+
+    const threshold = window.innerWidth * 0.3;
+    const opacity = Math.min(Math.abs(dx) / threshold, 1);
+
+    if (dx > 0) {
+        gradientRight.style.opacity = opacity;
+        gradientLeft.style.opacity = 0;
+        gradientRightText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
+    } else {
+        gradientLeft.style.opacity = opacity;
+        gradientRight.style.opacity = 0;
+        gradientLeftText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
+    }
+});
+
+document.addEventListener('mouseup', (event) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+    isCooldown = true;
+
+    const dx = currentX - startX;
+    const threshold = window.innerWidth * 0.3;
+
+    gradientLeft.style.opacity = 0.4;
+    gradientRight.style.opacity = 0.4;
+    gradientLeftText.style.color = 'rgba(0, 0, 0, 0.3)';
+    gradientRightText.style.color = 'rgba(0, 0, 0, 0.3)';
+
+    if (Math.abs(dx) > threshold) {
+        //  cardDiv.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+        cardDiv.style.opacity = 0;
+
+        if (dx > 0) {
+            swipeRight();
+        } else {
+            swipeLeft();
+        }
+
+        setTimeout(() => { resetCard() }, 300);
+
+    } else {
+        resetCard(true);
+    }
+});
+
+// Prevent text selection during drag
+document.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const cards = [
     {
         text: "A shop management game about the Gritish Museum",
@@ -46,9 +152,9 @@ let gamesToStream = 5;
 
 const scoreDiv = document.getElementById('score');
 const gameCountDiv = document.getElementById('gamecount');
-const cardDiv = document.getElementById('card');
-const skipButton = document.getElementById('skipButton');
-const keepButton = document.getElementById('keepButton');
+// //const cardDiv = document.getElementById('card');
+// const skipButton = document.getElementById('skipButton');
+// const keepButton = document.getElementById('keepButton');
 
 function skipPenalty() {
     if (cardPhase > 0) {
@@ -79,28 +185,28 @@ function updateScore(change) {
     }
     let submissions = cards.length - currentCardIndex;
     scoreDiv.textContent = score;
-    gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, skipped ${skippedGames}, remaining ${submissions}`;
+    gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions}`;
 }
 
 function drawNewCard() {
     currentCardIndex++;
 
     if (streamedGames >= gamesToStream) {
-        cardDiv.textContent = "Won! You have successfully filled the stream! Your final score is: " + score;
-        skipButton.disabled = true;
-        keepButton.disabled = true;
+        cardContentDiv.textContent = "Won! You have successfully filled the stream! Your final score is: " + score;
+        // skipButton.disabled = true;
+        // keepButton.disabled = true;
     } else if (score <= 0) {
-        cardDiv.textContent = "Lost! You have lost all your viewers :(";
-        skipButton.disabled = true;
-        keepButton.disabled = true;
+        cardContentDiv.textContent = "Lost! You have lost all your viewers :(";
+        // skipButton.disabled = true;
+        // keepButton.disabled = true;
     } else if (currentCardIndex < cards.length) {
-        cardDiv.textContent = cards[currentCardIndex].text;
-        skipButton.disabled = false;
-        keepButton.disabled = false;
+        cardContentDiv.textContent = cards[currentCardIndex].text;
+        // skipButton.disabled = false;
+        // keepButton.disabled = false;
     } else {
-        cardDiv.textContent = "Lost! You have no more games to stream :/";
-        skipButton.disabled = true;
-        keepButton.disabled = true;
+        cardContentDiv.textContent = "Lost! You have no more games to stream :/";
+        // skipButton.disabled = true;
+        // keepButton.disabled = true;
     }
 }
 
@@ -111,18 +217,18 @@ function swipeLeft() {
 }
 
 function revealCard(card) {
-    keepButton.textContent = "PLAY";
-    skipButton.textContent = "ABORT (-" + skipPenalty() + " viewers)";
+    // keepButton.textContent = "PLAY";
+    // skipButton.textContent = "ABORT (-" + skipPenalty() + " viewers)";
 
-    cardDiv.innerHTML = `
+    cardContentDiv.innerHTML = `
     ${card.conclusion}<hr>
     Impact: ${impactText(card.impact)}<br />
     Risk: ${riskText(card.risk)}`;
 }
 
 function resolveCard(card) {
-    skipButton.disabled = true;
-    keepButton.textContent = "NEXT";
+    // skipButton.disabled = true;
+    // keepButton.textContent = "NEXT";
     riskRevealed = false;
     streamedGames++;
 
@@ -135,9 +241,9 @@ function resolveCard(card) {
 }
 
 function clearCard() {
-    skipButton.disabled = false;
-    keepButton.textContent = "OPEN";
-    skipButton.textContent = "SKIP (-" + skipPenalty() + " viewers)";
+    // skipButton.disabled = false;
+    // keepButton.textContent = "OPEN";
+    // skipButton.textContent = "SKIP (-" + skipPenalty() + " viewers)";
 
     drawNewCard();
 }
@@ -161,8 +267,8 @@ function swipeRight() {
 
 }
 
-skipButton.addEventListener('click', swipeLeft);
-keepButton.addEventListener('click', swipeRight);
+// skipButton.addEventListener('click', skipCard);
+// keepButton.addEventListener('click', keepCard);
 
 clearCard();
 updateScore(0);
