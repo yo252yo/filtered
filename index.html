@@ -1,23 +1,78 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Filtered!</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+  <script>
+    // const audioFiles = [
+    //   'files/bgm.ogg',
+    //   'files/sfx/Clicker.ogg',
+    //   'files/sfx/Defeat.ogg',
+    //   'files/sfx/Disaster_huge.ogg',
+    //   'files/sfx/Disaster_small.ogg',
+    //   'files/sfx/Disaster_tiny.ogg',
+    //   'files/sfx/Link.ogg',
+    //   'files/sfx/Policy.ogg',
+    //   'files/sfx/Purchase.ogg',
+    //   'files/sfx/Upgrade.ogg',
+    //   'files/sfx/Victory.ogg',
+    //   'files/sfx/VolumeCheck.ogg',
+    // ];
+
+    // function preloadAudio(files) {
+    //   files.forEach(file => {
+    //     const audio = new Audio(file);
+    //     audio.preload = 'auto';
+    //     // Load the audio file
+    //     audio.load();
+    //   });
+    // }
+    // preloadAudio(audioFiles);
+
+
+    // var MUSIC_AUDIO = new Audio();
+    // MUSIC_AUDIO.loop = "loop";
+
+    // function checkVolume() {
+    //   const savedMusicVolume = localStorage.getItem('music_volume');
+    //   if (savedMusicVolume !== null) {
+    //     MUSIC_AUDIO.volume = savedMusicVolume / 100;
+    //   }
+    // }
+    // setInterval(checkVolume, 250);
+
+
+    // MUSIC_AUDIO.src = "files/bgm.ogg";
+
+    // function startMusic() {
+    //   MUSIC_AUDIO.play().catch(function (error) {
+    //     setTimeout(startMusic, 100);
+    //   });
+    // }
+    // startMusic();
+  </script>
 </head>
 
-<body>
-  <header></header>
-  <main>
-
-    In a dystopian world you're an AI streamer organizing a game jam about "Remnants of the past".<br />
-    The stream to play the games is soon, but you need to decide which games you can play on stream or which are too
-    risky or boring.<br />
-    You play as the filter of the AI and you decide if youre letting ideas through or not.<br />
-    <a href="game.html">PLAY</a>
-
-  </main>
-  <footer></footer>
+<body style="margin: 0; padding: 0;">
+  <iframe src="start.html" frameborder="0" style="width: 100%; height: 100vh; border: none;"></iframe>
 </body>
 
 </html>
