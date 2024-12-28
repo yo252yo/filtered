@@ -180,9 +180,39 @@ const possibleCards = [
     },
     {
         text: "A puzzle game about the history of the pieces in a smartphone",
-        conclusion: "Without much surprise, there's slavery involved every step of the way...",
+        conclusion: "Without much surprise, there's slavery and child labour involved every step of the way...",
         impact: 800,
         risk: 0.3
+    },
+    {
+        text: "A puzzle game about geometrical shapes",
+        conclusion: "Fudge, it's about the systemic exclusion of some populations from the political process through jerrymandering.",
+        impact: 900,
+        risk: 0.4
+    },
+    {
+        text: "A compilation of the most embarassing moments of a streamer",
+        conclusion: "It's definitely cringe, but it shouldn't be much trouble...",
+        impact: 300,
+        risk: 0.2
+    },
+    {
+        text: "An arthouse game celebrating social progress",
+        conclusion: "Most of them have been conquered through violent and bloody labour movements. Is it distant enough?",
+        impact: 1500,
+        risk: 0.2
+    },
+    {
+        text: "A 'find the differences' game between pictures of the 1930s and the 2020s",
+        conclusion: "Most of them are focused on neonazi groups. Talk about remnants of the past.",
+        impact: 3000,
+        risk: 0.9
+    },
+    {
+        text: "A murder investigation game",
+        conclusion: "It has the player trace the history of corruption in a real world company. Too real. But maybe big money is ok?",
+        impact: 1000,
+        risk: 0.7
     },
 
     // { text: "A board game adaptation of colonial land grabbing", conclusion: "Hits a nerve with many", impact: 800, risk: 0.6 },
