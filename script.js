@@ -249,7 +249,10 @@ function resolveCard(card) {
 
     const isSuccess = Math.random() > card.risk;
     const effect = isSuccess ? card.impact : -2 * card.impact;
-    const resultMessage = isSuccess ? "Chat is happy!" : "Chat is upset!";
+    let negatives = ["upset", "bored", "outraged", "anxious"];
+    let n = negatives[Math.floor(Math.random() * negatives.length)]
+
+    const resultMessage = isSuccess ? "Chat is content!" : `Chat is ${n}!`;
     updateScore(effect);
 
     cardContentDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`;
