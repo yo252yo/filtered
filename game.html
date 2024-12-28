@@ -7,7 +7,7 @@
     <title>Card Game</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,21 +15,27 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f4f4f9;
+            background: linear-gradient(135deg, #2b2b2b, #1f1f1f);
+            color: #00ffcc;
         }
 
         #score {
             font-size: 24px;
             margin-bottom: 20px;
+            background-color: #000;
+            padding: 10px;
+            border: 2px solid #00ffcc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 255, 204, 0.5);
         }
 
         #card {
             width: 300px;
             height: 200px;
-            background-color: #fff;
-            border: 2px solid #ccc;
+            background-color: #333;
+            border: 2px solid #00ffcc;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 255, 204, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -37,6 +43,7 @@
             text-align: center;
             padding: 20px;
             margin-bottom: 20px;
+            color: #fff;
         }
 
         #buttons {
@@ -47,20 +54,33 @@
         button {
             padding: 10px 20px;
             font-size: 16px;
-            border: none;
+            border: 2px solid #00ffcc;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #007bff;
-            color: white;
+            background-color: #000;
+            color: #00ffcc;
+            box-shadow: 0 4px 8px rgba(0, 255, 204, 0.5);
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #00ffcc;
+            color: #000;
         }
 
         button:disabled {
-            background-color: #ccc;
+            background-color: #444;
+            color: #777;
             cursor: not-allowed;
+            border-color: #555;
+            box-shadow: none;
+        }
+
+        #conclusion {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #00ffcc;
+            text-align: center;
+            display: none;
         }
     </style>
 </head>
@@ -69,22 +89,26 @@
     <div id="score">Score: 0</div>
     <div id="card">Welcome to the game!</div>
     <div id="buttons">
-        <button id="skipButton">Skip</button>
-        <button id="keepButton">Keep</button>
+        <button id="skipButton">Censor</button>
+        <button id="keepButton">Play</button>
     </div>
+    <div id="conclusion"></div>
 
     <script>
         const cards = [
-            { text: "Gain 5 points", effect: 5 },
-            { text: "Lose 3 points", effect: -3 },
-            { text: "Gain 10 points", effect: 10 },
-            { text: "Lose 5 points", effect: -5 },
-            { text: "No effect", effect: 0 },
-            { text: "Gain 7 points", effect: 7 },
-            { text: "Lose 2 points", effect: -2 },
-            { text: "Gain 3 points", effect: 3 },
-            { text: "Lose 1 point", effect: -1 },
-            { text: "Gain 8 points", effect: 8 }
+            { text: "A shop management game about the Dritish Museum pillaging artifacts in conquered countries", effect: 5, conclusion: "Very well received!" },
+            { text: "A game about implicit self-censorship on stream", effect: 0, conclusion: "Abstract enough to not cause commotion" },
+
+            { text: "Seems to be a game about bananas", effect: -3, conclusion: "Oh no its actually about the dictatorship regimes the United Fruit Company installed in south america!" },
+
+
+            { text: "Gain 10 points", effect: 10, conclusion: "You helped an old lady cross the road." },
+            { text: "Lose 5 points", effect: -5, conclusion: "You got scammed by a shady merchant." },
+            { text: "Gain 7 points", effect: 7, conclusion: "You discovered a hidden cache of supplies." },
+            { text: "Lose 2 points", effect: -2, conclusion: "You lost a bet at a tavern." },
+            { text: "Gain 3 points", effect: 3, conclusion: "You completed a minor quest." },
+            { text: "Lose 1 point", effect: -1, conclusion: "You paid a small fine." },
+            { text: "Gain 8 points", effect: 8, conclusion: "You defeated a small group of bandits." }
         ];
 
         let currentCardIndex = 0;
@@ -94,8 +118,10 @@
         const cardDiv = document.getElementById('card');
         const skipButton = document.getElementById('skipButton');
         const keepButton = document.getElementById('keepButton');
+        const conclusionDiv = document.getElementById('conclusion');
 
         function updateCard() {
+            conclusionDiv.style.display = 'none';
             if (currentCardIndex < cards.length) {
                 cardDiv.textContent = cards[currentCardIndex].text;
             } else {
@@ -103,6 +129,11 @@
                 skipButton.disabled = true;
                 keepButton.disabled = true;
             }
+        }
+
+        function showConclusion(conclusion) {
+            conclusionDiv.textContent = conclusion;
+            conclusionDiv.style.display = 'block';
         }
 
         function updateScore(change) {
@@ -119,9 +150,10 @@
         keepButton.addEventListener('click', () => {
             if (currentCardIndex < cards.length) {
                 updateScore(cards[currentCardIndex].effect);
+                showConclusion(cards[currentCardIndex].conclusion);
             }
             currentCardIndex++;
-            updateCard();
+            setTimeout(updateCard, 2000);
         });
 
         // Initialize the game
