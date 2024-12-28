@@ -127,7 +127,13 @@ function resolveCard(card) {
     streamedGames++;
 
     const isSuccess = Math.random() > card.risk;
-    const effect = isSuccess ? card.impact : -2 * card.impact;
+    let effect = 0;
+    // Make the gain on average be null
+    if (isSuccess) {
+        effect = card.impact * card.risk;
+    } else {
+        effect = -1 * card.impact * (1 - card.risk);
+    }
     const resultMessage = isSuccess ? "Chat is happy!" : "Chat is upset!";
     updateScore(effect);
 
