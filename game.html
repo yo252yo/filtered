@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        #score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #card {
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="score">Score: 0</div>
+    <div id="card">Welcome to the game!</div>
+    <div id="buttons">
+        <button id="skipButton">Skip</button>
+        <button id="keepButton">Keep</button>
+    </div>
+
+    <script>
+        const cards = [
+            { text: "Gain 5 points", effect: 5 },
+            { text: "Lose 3 points", effect: -3 },
+            { text: "Gain 10 points", effect: 10 },
+            { text: "Lose 5 points", effect: -5 },
+            { text: "No effect", effect: 0 },
+            { text: "Gain 7 points", effect: 7 },
+            { text: "Lose 2 points", effect: -2 },
+            { text: "Gain 3 points", effect: 3 },
+            { text: "Lose 1 point", effect: -1 },
+            { text: "Gain 8 points", effect: 8 }
+        ];
+
+        let currentCardIndex = 0;
+        let score = 10000;
+
+        const scoreDiv = document.getElementById('score');
+        const cardDiv = document.getElementById('card');
+        const skipButton = document.getElementById('skipButton');
+        const keepButton = document.getElementById('keepButton');
+
+        function updateCard() {
+            if (currentCardIndex < cards.length) {
+                cardDiv.textContent = cards[currentCardIndex].text;
+            } else {
+                cardDiv.textContent = "Game Over!";
+                skipButton.disabled = true;
+                keepButton.disabled = true;
+            }
+        }
+
+        function updateScore(change) {
+            score += change;
+            scoreDiv.textContent = `Viewers: ${score}`;
+        }
+        updateScore(0);
+
+        skipButton.addEventListener('click', () => {
+            currentCardIndex++;
+            updateCard();
+        });
+
+        keepButton.addEventListener('click', () => {
+            if (currentCardIndex < cards.length) {
+                updateScore(cards[currentCardIndex].effect);
+            }
+            currentCardIndex++;
+            updateCard();
+        });
+
+        // Initialize the game
+        updateCard();
+    </script>
+</body>
+
+</html>
