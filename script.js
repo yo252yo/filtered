@@ -6,11 +6,11 @@ const gradientRight = document.getElementById('gradientRight');
 const gradientLeftText = gradientLeft.querySelector('.gradient-text');
 const gradientRightText = gradientRight.querySelector('.gradient-text');
 
+let cardPhase = 0;
+
 let isDragging = false;
 let isDraggable = true;
-let startX = 0;
-let currentX = 0;
-
+let isGameOver = false;
 
 function resetCardPosition(soft) {
     if (soft) {
@@ -23,8 +23,11 @@ function resetCardPosition(soft) {
 }
 resetCardPosition();
 
+let startX = 0;
+let currentX = 0;
+
 cardDiv.addEventListener('mousedown', (event) => {
-    if (isDragging || !isDraggable) return;
+    if (isDragging || !isDraggable || isGameOver) return;
 
     isDragging = true;
     startX = event.clientX;
@@ -46,11 +49,11 @@ document.addEventListener('mousemove', (event) => {
     if (dx > 0) {
         gradientRight.style.opacity = opacity;
         gradientLeft.style.opacity = 0;
-        gradientRightText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
+        gradientRightText.style.color = `rgba(0, 50, 0, ${0.3 + 0.7 * opacity})`;
     } else {
         gradientLeft.style.opacity = opacity;
         gradientRight.style.opacity = 0;
-        gradientLeftText.style.color = `rgba(0, 0, 0, ${0.3 + 0.7 * opacity})`;
+        gradientLeftText.style.color = `rgba(50, 0, 0, ${0.3 + 0.7 * opacity})`;
     }
 });
 
@@ -145,20 +148,17 @@ const cards = [
 
 let currentCardIndex = -1;
 let score = 10000;
-let cardPhase = 0;
 let streamedGames = 0;
 let skippedGames = 0;
-let gamesToStream = 5;
 
 const scoreDiv = document.getElementById('score');
 const gameCountDiv = document.getElementById('gamecount');
 
-
 function skipPenalty() {
     if (cardPhase > 0) {
-        return 2000;
-    } else {
         return 1000;
+    } else {
+        return 500;
     }
 }
 
@@ -184,42 +184,40 @@ function updateScore(change) {
     let submissions = cards.length - currentCardIndex;
     scoreDiv.textContent = score;
     gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions}`;
+    return score;
 }
 updateScore();
 
 
+function gameOver() {
+    isGameOver = true;
+    gradientLeft.style.display = "none";
+    gradientRight.style.display = "none";
+}
+
 function drawNewCard() {
+    cardPhase = 0;
+    gradientRightText.textContent = "OPEN";
+    gradientLeftText.textContent = "FILTER (-" + skipPenalty() + " viewers)";
+
     currentCardIndex++;
     updateScore();
 
-    if (streamedGames >= gamesToStream) {
-        cardContentDiv.textContent = "Won! You have successfully filled the stream! Your final score is: " + score;
-        // skipButton.disabled = true;
-        // keepButton.disabled = true;
-    } else if (score <= 0) {
+    if (score <= 0) {
         cardContentDiv.textContent = "Lost! You have lost all your viewers :(";
-        // skipButton.disabled = true;
-        // keepButton.disabled = true;
+        gameOver();
     } else if (currentCardIndex < cards.length) {
         cardContentDiv.textContent = cards[currentCardIndex].text;
-        // skipButton.disabled = false;
-        // keepButton.disabled = false;
     } else {
         cardContentDiv.textContent = "Lost! You have no more games to stream :/";
-        // skipButton.disabled = true;
-        // keepButton.disabled = true;
+        gameOver();
     }
 }
 
-function swipeLeft() {
-    drawNewCard();
-    skippedGames++;
-    updateScore(-skipPenalty());
-}
-
 function revealCard(card) {
-    // keepButton.textContent = "PLAY";
-    // skipButton.textContent = "ABORT (-" + skipPenalty() + " viewers)";
+    cardPhase = 1;
+    gradientRightText.textContent = "PLAY";
+    gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " viewers)";
 
     cardContentDiv.innerHTML = `
     ${card.conclusion}<hr>
@@ -228,9 +226,10 @@ function revealCard(card) {
 }
 
 function resolveCard(card) {
-    // skipButton.disabled = true;
-    // keepButton.textContent = "NEXT";
-    riskRevealed = false;
+    gradientRightText.textContent = "NEXT";
+    gradientLeftText.textContent = "NEXT";
+    cardPhase = 2;
+
     streamedGames++;
 
     const isSuccess = Math.random() > card.risk;
@@ -238,37 +237,30 @@ function resolveCard(card) {
     const resultMessage = isSuccess ? "Chat is happy!" : "Chat is upset!";
     updateScore(effect);
 
-    cardDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`;
+    cardContentDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`;
 }
 
-function clearCard() {
-    // skipButton.disabled = false;
-    // keepButton.textContent = "OPEN";
-    // skipButton.textContent = "SKIP (-" + skipPenalty() + " viewers)";
+function swipeLeft() {
+    console.log("Swiped left, phase " + cardPhase);
+
+    if (cardPhase != 2) {
+        skippedGames++;
+        updateScore(-skipPenalty());
+    }
 
     drawNewCard();
 }
 
 function swipeRight() {
-    const currentCard = cards[currentCardIndex];
-    if (currentCardIndex >= cards.length) {
-        return; //todo: this shouldnt happen better gameover
-    }
+    console.log("Swiped right, phase " + cardPhase);
 
-    if (!cardPhase) {
-        cardPhase = 1;
-        revealCard(currentCard);
+    if (cardPhase == 2) {
+        drawNewCard();
     } else if (cardPhase == 1) {
-        cardPhase = 2;
-        resolveCard(currentCard);
+        resolveCard(cards[currentCardIndex]);
     } else {
-        cardPhase = 0;
-        clearCard();
+        revealCard(cards[currentCardIndex]);
     }
-
 }
 
-// skipButton.addEventListener('click', skipCard);
-// keepButton.addEventListener('click', keepCard);
-
-clearCard();
+drawNewCard();
