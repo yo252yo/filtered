@@ -129,6 +129,8 @@
         let currentCardIndex = -1;
         let score = 10000;
         let cardPhase = 0;
+        let streamedGames = 0;
+        let gamesToStream = 5;
 
         const scoreDiv = document.getElementById('score');
         const cardDiv = document.getElementById('card');
@@ -159,27 +161,38 @@
 
         function updateScore(change) {
             score += change;
-            scoreDiv.textContent = `Viewers: ${score}`;
+            if (score < 0) {
+                score = 0;
+            }
+            let submissions = cards.length - currentCardIndex;
+            scoreDiv.textContent = `Viewers: ${score} - Streamed games: ${streamedGames} / ${gamesToStream} - Remaining submissions: ${submissions}`;
         }
 
         function drawNewCard() {
             currentCardIndex++;
 
-            if (currentCardIndex < cards.length) {
+            if (streamedGames >= gamesToStream) {
+                cardDiv.textContent = "Won! You have successfully filled the stream! Your final score is: " + score;
+                skipButton.disabled = true;
+                keepButton.disabled = true;
+            } else if (score <= 0) {
+                cardDiv.textContent = "Lost! You have lost all your viewers :(";
+                skipButton.disabled = true;
+                keepButton.disabled = true;
+            } else if (currentCardIndex < cards.length) {
                 cardDiv.textContent = cards[currentCardIndex].text;
                 skipButton.disabled = false;
                 keepButton.disabled = false;
             } else {
-                cardDiv.textContent = "Game Over!";
+                cardDiv.textContent = "Lost! You have no more games to stream :/";
                 skipButton.disabled = true;
                 keepButton.disabled = true;
             }
         }
 
         function skipCard() {
-            updateScore(-skipPenalty());
-            currentCardIndex++;
             drawNewCard();
+            updateScore(-skipPenalty());
         }
 
         function revealCard(card) {
@@ -196,6 +209,7 @@
             skipButton.disabled = true;
             keepButton.textContent = "NEXT";
             riskRevealed = false;
+            streamedGames++;
 
             const isSuccess = Math.random() > card.risk;
             const effect = isSuccess ? card.impact : -2 * card.impact;
@@ -207,7 +221,7 @@
 
         function clearCard() {
             skipButton.disabled = false;
-            keepButton.textContent = "KEEP";
+            keepButton.textContent = "OPEN";
             skipButton.textContent = "SKIP (-" + skipPenalty() + " viewers)";
 
             drawNewCard();
@@ -235,8 +249,8 @@
         skipButton.addEventListener('click', skipCard);
         keepButton.addEventListener('click', keepCard);
 
-        updateScore(0);
         clearCard();
+        updateScore(0);
     </script>
 </body>
 
