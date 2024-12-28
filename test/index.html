@@ -10,7 +10,8 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding-top: 50px;
             height: 100vh;
             background: #f0f0f0;
             font-family: Arial, sans-serif;
@@ -31,16 +32,6 @@
             font-weight: bold;
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-
-        /* .card.swipe-left {
-            transform: translate(-150%, -50%) rotate(-30deg);
-            opacity: 0;
-        }
-
-        .card.swipe-right {
-            transform: translate(150%, -50%) rotate(30deg);
-            opacity: 0;
-        } */
 
         .gradient {
             position: absolute;
@@ -89,7 +80,7 @@
     </div>
 
     <script>
-        const card = document.getElementById('card');
+        const cardDiv = document.getElementById('card');
         const gradientLeft = document.getElementById('gradientLeft');
         const gradientRight = document.getElementById('gradientRight');
         const gradientLeftText = gradientLeft.querySelector('.gradient-text');
@@ -98,12 +89,17 @@
         let isDragging = false;
         let startX = 0;
         let currentX = 0;
-        let windowWidth = window.innerWidth;
 
-        card.addEventListener('mousedown', (event) => {
+        function resetCard() {
+            cardDiv.style.transition = 'transform 0.5s ease';
+            cardDiv.style.transform = 'translate(0, 0)';
+            cardDiv.textContent = 'Swipe';
+        }
+
+        cardDiv.addEventListener('mousedown', (event) => {
             isDragging = true;
             startX = event.clientX;
-            card.style.transition = 'none';
+            cardDiv.style.transition = 'none';
         });
 
         document.addEventListener('mousemove', (event) => {
@@ -111,12 +107,11 @@
 
             currentX = event.clientX;
             const dx = currentX - startX;
-            const rotation = dx / windowWidth * 30; // Maximum rotation of 30 degrees
+            const rotation = dx / window.innerWidth * 30; // Maximum rotation of 30 degrees
 
-            card.style.transform = `translate(${dx}px, ${Math.abs(dx) * 0.2}px) rotate(${rotation}deg)`;
+            cardDiv.style.transform = `translate(${dx}px, ${Math.abs(dx) * 0.2}px) rotate(${rotation}deg)`;
 
-            // Update gradient opacity
-            const threshold = windowWidth * 0.4;
+            const threshold = window.innerWidth * 0.4;
             const opacity = Math.min(Math.abs(dx) / threshold, 1);
 
             if (dx > 0) {
@@ -135,7 +130,7 @@
 
             isDragging = false;
             const dx = currentX - startX;
-            const threshold = windowWidth * 0.4;
+            const threshold = window.innerWidth * 0.4;
 
             gradientLeft.style.opacity = 0.4;
             gradientRight.style.opacity = 0.4;
@@ -143,30 +138,18 @@
             gradientRightText.style.color = 'rgba(0, 0, 0, 0.3)';
 
             if (Math.abs(dx) > threshold) {
-                // Swiped left or right
-                card.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+                cardDiv.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
 
                 if (dx > 0) {
-                    //  card.classList.add('swipe-right');
-                    //  setTimeout(() => {
-                    card.textContent = 'Swiped Right';
-                    //  }, 500);
+                    cardDiv.textContent = 'Swiped Right';
                 } else {
-                    //  card.classList.add('swipe-left');
-                    //  setTimeout(() => {
-                    card.textContent = 'Swiped Left';
-                    //  }, 500);
+                    cardDiv.textContent = 'Swiped Left';
                 }
 
-                setTimeout(() => {
-                    card.style.transition = 'transform 0.5s ease';
-                    card.style.transform = 'translate(0, 0)';
-                }, 1000);
+                setTimeout(() => { resetCard() }, 1000);
 
             } else {
-                // Reset position
-                card.style.transition = 'transform 0.5s ease';
-                card.style.transform = 'translate(0, 0)';
+                resetCard();
             }
         });
 
