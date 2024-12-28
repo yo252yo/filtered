@@ -166,17 +166,17 @@ function skipPenalty() {
 }
 
 function riskText(risk) {
-    if (risk < 0.2) return "very low";
-    if (risk < 0.4) return "low";
-    if (risk < 0.6) return "medium";
-    if (risk < 0.8) return "high";
-    return "very high";
+    if (risk < 0.2) return `<span style="color:blue">very low</span>`;
+    if (risk < 0.4) return `<span style="color:green">low</span>`;
+    if (risk < 0.6) return `<span style="color:yellow">medium</span>`;
+    if (risk < 0.8) return `<span style="color:orange">high</span>`;
+    return `<span style="color:red">very high</span>`;
 }
 
 function impactText(impact) {
-    if (impact < 200) return "low";
-    if (impact < 2000) return "medium";
-    return "high";
+    if (impact < 200) return `<span style="color:blue">low</span>`;
+    if (impact < 2000) return `<span style="color:yellow">medium</span>`;
+    return `<span style="color:red">high</span>`;
 }
 
 function updateScore(change) {
@@ -186,7 +186,7 @@ function updateScore(change) {
     }
     let submissions = cards.length - currentCardIndex;
     scoreDiv.textContent = score;
-    gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions}`;
+    gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions} `;
     return score;
 }
 updateScore();
@@ -232,9 +232,9 @@ function revealCard(card) {
     cardFooterDiv.textContent = "Swipe card left or right to confirm";
 
     cardContentDiv.innerHTML = `
-    ${card.conclusion}<hr>
-    Impact: ${impactText(card.impact)}<br />
-    Risk: ${riskText(card.risk)}`;
+    ${card.conclusion} <hr>
+        Impact: ${impactText(card.impact)}<br />
+        Risk: ${riskText(card.risk)}`;
 }
 
 function resolveCard(card) {
