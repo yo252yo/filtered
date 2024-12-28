@@ -36,7 +36,7 @@
             border: 2px solid #00ffcc;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 255, 204, 0.5);
-            display: flex;
+            /* display: flex; */
             align-items: center;
             justify-content: center;
             font-size: 18px;
@@ -89,11 +89,11 @@
     <div id="score">Viewers: 10000</div>
     <div id="card">Welcome to the game!</div>
     <div id="buttons">
-        <button id="skipButton">Skip -1k viewers</button>
+        <button id="skipButton">Skip</button>
         <button id="keepButton">Keep</button>
     </div>
-    <div id="conclusion"></div>
-    <button id="outcomeButton" style="display:none; margin-top:20px;">Reveal Outcome</button>
+
+
 
     <script>
         const cards = [
@@ -109,16 +109,22 @@
             { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 9, risk: 0.1 }
         ];
 
-        let currentCardIndex = 0;
+        let currentCardIndex = -1;
         let score = 10000;
-        let awaitingCoinFlip = false;
+        let cardPhase = 0;
 
         const scoreDiv = document.getElementById('score');
         const cardDiv = document.getElementById('card');
         const skipButton = document.getElementById('skipButton');
         const keepButton = document.getElementById('keepButton');
-        const conclusionDiv = document.getElementById('conclusion');
-        const outcomeButton = document.getElementById('outcomeButton');
+
+        function skipPenalty() {
+            if (cardPhase > 0) {
+                return 2000;
+            } else {
+                return 500;
+            }
+        }
 
         function riskText(risk) {
             if (risk < 0.3) return "low";
@@ -126,27 +132,10 @@
             return "high";
         }
 
-        function showConclusion(conclusion, impact, risk) {
-            conclusionDiv.textContent = `${conclusion} Impact: ${impact > 7 ? "high" : impact > 4 ? "medium" : "low"}. Risk: ${riskText(risk)}.`;
-            conclusionDiv.style.display = 'block';
-        }
-
-        function resolveOutcome() {
-            if (!awaitingCoinFlip) {
-                awaitingCoinFlip = true;
-                outcomeButton.textContent = "Resolve Outcome";
-                return;
-            }
-            awaitingCoinFlip = false;
-
-            const currentCard = cards[currentCardIndex - 1];
-            const isSuccess = Math.random() > currentCard.risk;
-            const effect = isSuccess ? currentCard.impact : -currentCard.impact;
-            const resultMessage = isSuccess ? "Success!" : "Failure!";
-            showConclusion(`${resultMessage} You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`, currentCard.impact, currentCard.risk);
-            updateScore(effect);
-            outcomeButton.style.display = 'none';
-            updateCard();
+        function impactText(impact) {
+            if (impact < 100) return "low";
+            if (impact < 1000) return "medium";
+            return "high";
         }
 
         function updateScore(change) {
@@ -154,14 +143,13 @@
             scoreDiv.textContent = `Viewers: ${score}`;
         }
 
-        function updateCard() {
-            conclusionDiv.style.display = 'none';
-            outcomeButton.style.display = 'none';
+        function drawNewCard() {
+            currentCardIndex++;
+
             if (currentCardIndex < cards.length) {
                 cardDiv.textContent = cards[currentCardIndex].text;
                 skipButton.disabled = false;
                 keepButton.disabled = false;
-                outcomeButton.textContent = "Reveal Outcome";
             } else {
                 cardDiv.textContent = "Game Over!";
                 skipButton.disabled = true;
@@ -169,28 +157,65 @@
             }
         }
 
-        skipButton.addEventListener('click', () => {
-            updateScore(-1000);
+        function skipCard() {
+            updateScore(-skipPenalty());
             currentCardIndex++;
-            updateCard();
-        });
+            drawNewCard();
+        }
 
-        keepButton.addEventListener('click', () => {
-            if (currentCardIndex < cards.length) {
-                const currentCard = cards[currentCardIndex];
-                showConclusion(currentCard.conclusion, currentCard.impact, currentCard.risk);
-                outcomeButton.style.display = 'block';
-                skipButton.disabled = true;
-                keepButton.disabled = true;
+        function revealCard(card) {
+            keepButton.textContent = "PLAY";
+            skipButton.textContent = "ABORT (-" + skipPenalty() + " viewers)";
+
+            cardDiv.innerHTML = `${card.conclusion}<hr>Impact: ${impactText(card.impact)}.<br />Risk: ${riskText(card.risk)}.`;
+        }
+
+        function resolveCard(card) {
+            skipButton.disabled = true;
+            keepButton.textContent = "NEXT";
+            riskRevealed = false;
+
+            const isSuccess = Math.random() > card.risk;
+            const effect = isSuccess ? card.impact : -card.impact;
+            const resultMessage = isSuccess ? "Success!" : "Failure!";
+            updateScore(effect);
+
+            cardDiv.textContent = `${resultMessage} You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`;
+        }
+
+        function clearCard() {
+            skipButton.disabled = false;
+            keepButton.textContent = "KEEP";
+            skipButton.textContent = "SKIP (-" + skipPenalty() + " viewers)";
+
+            drawNewCard();
+        }
+
+        function keepCard() {
+            const currentCard = cards[currentCardIndex];
+            if (currentCardIndex >= cards.length) {
+                return; //todo: this shouldnt happen better gameover
             }
-            currentCardIndex++;
-        });
 
-        outcomeButton.addEventListener('click', resolveOutcome);
+            if (!cardPhase) {
+                cardPhase = 1;
+                revealCard(currentCard);
+            } else if (cardPhase == 1) {
+                cardPhase = 2;
+                resolveCard(currentCard);
+            } else {
+                cardPhase = 0;
+                clearCard();
+            }
 
-        // Initialize the game
+        }
+
+        skipButton.addEventListener('click', skipCard);
+        keepButton.addEventListener('click', keepCard);
+
         updateScore(0);
-        updateCard();
+        clearCard();
+        drawNewCard();
     </script>
 </body>
 
