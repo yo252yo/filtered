@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Game</title>
+    <title>Filtered!</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -15,18 +15,39 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: linear-gradient(135deg, #2b2b2b, #1f1f1f);
+            background: linear-gradient(135deg, #F7E8CE, #E3A2A9);
             color: #00ffcc;
         }
 
-        #score {
-            font-size: 24px;
-            margin-bottom: 20px;
-            background-color: #000;
-            padding: 10px;
-            border: 2px solid #00ffcc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 255, 204, 0.5);
+        #scorebar {
+            position: fixed;
+            height: 75px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            padding: 20px;
+
+            background-color: #0e0e10;
+
+            border-top: 2px solid #34343B;
+
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.8),
+                0 -2px 8px rgba(52, 52, 59, 0.8),
+                0 0 15px #ff8280;
+
+
+            font-family: 'Courier New', Courier, monospace;
+            color: #ff8280;
+            font-size: x-large;
+        }
+
+        #scoreDiv {
+            float: right;
+        }
+
+        #gamecount {
+            float: left;
         }
 
         #card {
@@ -74,14 +95,6 @@
             border-color: #555;
             box-shadow: none;
         }
-
-        #conclusion {
-            font-size: 18px;
-            margin-top: 20px;
-            color: #00ffcc;
-            text-align: center;
-            display: none;
-        }
     </style>
 
     <script src="script.js" defer>
@@ -90,11 +103,18 @@
 </head>
 
 <body>
-    <div id="score">Viewers: 10000</div>
     <div id="card">Welcome to the game!</div>
     <div id="buttons">
         <button id="skipButton">Skip</button>
         <button id="keepButton">Keep</button>
+    </div>
+
+    <div id="scorebar">
+        <div id="gamecount"></div>
+        <div id="scoreDiv" title="Viewer count - 0 means game over">
+            <img src="viewer.png" style="display: inline-block; height:25px; vertical-align: middle;" />
+            <div id="score" style="display: inline-block;"></div>
+        </div>
     </div>
 
 

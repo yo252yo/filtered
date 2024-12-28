@@ -18,14 +18,22 @@ const cards = [
         impact: 2000,
         risk: 0.8
     },
-
-
     { text: "A board game adaptation of colonial land grabbing", conclusion: "Hits a nerve with many", impact: 800, risk: 0.6 },
     { text: "A documentary-style game about the Dutch East India Company", conclusion: "Critically acclaimed!", impact: 1000, risk: 0.2 },
     { text: "A simulation game exploring the role of international banks in shaping global poverty", conclusion: "Draws some controversy", impact: 600, risk: 0.7 },
     { text: "A simple platformer about mining", conclusion: "It's actually a commentary on child labor in cobalt mines", impact: 700, risk: 0.5 },
     { text: "A trivia game about spices", conclusion: "Unveils the brutal history of the spice trade", impact: 400, risk: 0.3 },
     { text: "A clicker game about oil production", conclusion: "Criticized for being too on-the-nose", impact: 500, risk: 0.8 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
+    { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 },
     { text: "A story-driven RPG about rubber plantations", conclusion: "Deeply moving", impact: 900, risk: 0.1 }
 ];
 
@@ -33,9 +41,11 @@ let currentCardIndex = -1;
 let score = 10000;
 let cardPhase = 0;
 let streamedGames = 0;
+let skippedGames = 0;
 let gamesToStream = 5;
 
 const scoreDiv = document.getElementById('score');
+const gameCountDiv = document.getElementById('gamecount');
 const cardDiv = document.getElementById('card');
 const skipButton = document.getElementById('skipButton');
 const keepButton = document.getElementById('keepButton');
@@ -68,7 +78,8 @@ function updateScore(change) {
         score = 0;
     }
     let submissions = cards.length - currentCardIndex;
-    scoreDiv.textContent = `Viewers: ${score} - Streamed games: ${streamedGames} / ${gamesToStream} - Remaining submissions: ${submissions}`;
+    scoreDiv.textContent = score;
+    gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, skipped ${skippedGames}, remaining ${submissions}`;
 }
 
 function drawNewCard() {
@@ -95,6 +106,7 @@ function drawNewCard() {
 
 function skipCard() {
     drawNewCard();
+    skippedGames++;
     updateScore(-skipPenalty());
 }
 
