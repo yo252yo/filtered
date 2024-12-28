@@ -89,41 +89,48 @@
     <div id="score">Score: 0</div>
     <div id="card">Welcome to the game!</div>
     <div id="buttons">
-        <button id="skipButton">Censor</button>
-        <button id="keepButton">Play</button>
+        <button id="skipButton">Skip</button>
+        <button id="keepButton">Keep</button>
     </div>
     <div id="conclusion"></div>
+    <button id="outcomeButton" style="display:none; margin-top:20px;">Resolve Outcome</button>
 
     <script>
         const cards = [
             { text: "A shop management game about the Dritish Museum pillaging artifacts in conquered countries", effect: 5, conclusion: "Very well received!" },
             { text: "A game about implicit self-censorship on stream", effect: 0, conclusion: "Abstract enough to not cause commotion" },
+            { text: "Seems to be a game about bananas", effect: 3, conclusion: "Oh no its actually about the dictatorship regimes the United Fruit Company installed in south america!" },
 
-            { text: "Seems to be a game about bananas", effect: -3, conclusion: "Oh no its actually about the dictatorship regimes the United Fruit Company installed in south america!" },
 
-
+            { text: "Gain 5 points", effect: 5, conclusion: "You found a treasure chest!" },
+            { text: "Lose 3 points", effect: 3, conclusion: "You stepped into a trap." },
             { text: "Gain 10 points", effect: 10, conclusion: "You helped an old lady cross the road." },
-            { text: "Lose 5 points", effect: -5, conclusion: "You got scammed by a shady merchant." },
+            { text: "Lose 5 points", effect: 5, conclusion: "You got scammed by a shady merchant." },
+            { text: "No effect", effect: 0, conclusion: "Nothing happened, just a calm day." },
             { text: "Gain 7 points", effect: 7, conclusion: "You discovered a hidden cache of supplies." },
-            { text: "Lose 2 points", effect: -2, conclusion: "You lost a bet at a tavern." },
+            { text: "Lose 2 points", effect: 2, conclusion: "You lost a bet at a tavern." },
             { text: "Gain 3 points", effect: 3, conclusion: "You completed a minor quest." },
-            { text: "Lose 1 point", effect: -1, conclusion: "You paid a small fine." },
+            { text: "Lose 1 point", effect: 1, conclusion: "You paid a small fine." },
             { text: "Gain 8 points", effect: 8, conclusion: "You defeated a small group of bandits." }
         ];
 
         let currentCardIndex = 0;
-        let score = 10000;
+        let score = 1000;
 
         const scoreDiv = document.getElementById('score');
         const cardDiv = document.getElementById('card');
         const skipButton = document.getElementById('skipButton');
         const keepButton = document.getElementById('keepButton');
         const conclusionDiv = document.getElementById('conclusion');
+        const outcomeButton = document.getElementById('outcomeButton');
 
         function updateCard() {
             conclusionDiv.style.display = 'none';
+            outcomeButton.style.display = 'none';
             if (currentCardIndex < cards.length) {
                 cardDiv.textContent = cards[currentCardIndex].text;
+                skipButton.disabled = false;
+                keepButton.disabled = false;
             } else {
                 cardDiv.textContent = "Game Over!";
                 skipButton.disabled = true;
@@ -134,6 +141,16 @@
         function showConclusion(conclusion) {
             conclusionDiv.textContent = conclusion;
             conclusionDiv.style.display = 'block';
+        }
+
+        function resolveOutcome() {
+            const isSuccess = Math.random() > 0.5;
+            const effect = cards[currentCardIndex - 1].effect * (isSuccess ? 1 : -1);
+            const resultMessage = isSuccess ? "Success!" : "Failure!";
+            showConclusion(`${resultMessage} You ${isSuccess ? "gain" : "lose"} ${Math.abs(effect)} viewers.`);
+            updateScore(effect);
+            outcomeButton.style.display = 'none';
+            setTimeout(updateCard, 2000);
         }
 
         function updateScore(change) {
@@ -149,12 +166,15 @@
 
         keepButton.addEventListener('click', () => {
             if (currentCardIndex < cards.length) {
-                updateScore(cards[currentCardIndex].effect);
                 showConclusion(cards[currentCardIndex].conclusion);
+                outcomeButton.style.display = 'block';
+                skipButton.disabled = true;
+                keepButton.disabled = true;
             }
             currentCardIndex++;
-            setTimeout(updateCard, 2000);
         });
+
+        outcomeButton.addEventListener('click', resolveOutcome);
 
         // Initialize the game
         updateCard();
