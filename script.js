@@ -35,6 +35,7 @@ function startDrag(x) {
 
     isDragging = true;
     startX = x;
+    currentX = x;
     cardDiv.style.transition = 'none';
 }
 
