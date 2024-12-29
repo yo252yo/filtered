@@ -4,91 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spinning Circle with Fraction</title>
+    <title>Rectangle Example</title>
 </head>
 
 <body>
-    <canvas id="circleCanvas" width="400" height="400"></canvas>
-    <script>
-        let rotationAngle = 0;  // Keeps track of the rotation
-        let rotationSpeed = 0;  // Initial speed of rotation (0 means no rotation)
-        let animationFrameId;
+    <canvas id="myCanvas" width="400" height="200"></canvas>
 
-        function drawCircle(fraction) {
-            if (fraction < 0 || fraction > 1) {
-                console.error("Fraction must be between 0 and 1");
+
+    <script>
+        function drawRectangle(p) {
+            // Validate p to make sure it's between 0 and 1
+            if (p < 0 || p > 1) {
+                console.error('p must be between 0 and 1');
                 return;
             }
 
-            const canvas = document.getElementById('circleCanvas');
+            // Get the canvas element and its context
+            const canvas = document.getElementById('myCanvas');
             const ctx = canvas.getContext('2d');
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = 150;
 
-            // Clear canvas before drawing
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Set the width and height of the rectangle
+            const width = canvas.width;
+            const height = canvas.height;
 
-            // Move the origin of the canvas to the center of the circle
-            ctx.translate(centerX, centerY);
-            ctx.rotate(rotationAngle);  // Apply rotation
+            // Set the padding and border thickness
+            const padding = 10;
+            const borderThickness = 4;
 
-            // Draw full green circle
+            // Draw the border with rounded corners
+            ctx.lineWidth = borderThickness;
+            ctx.strokeStyle = '#333'; // Dark gray color for the border
+            ctx.fillStyle = '#fff'; // White background inside the border
             ctx.beginPath();
-            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            ctx.moveTo(padding + borderThickness, padding + borderThickness);
+            ctx.lineTo(width - padding - borderThickness, padding + borderThickness);
+            ctx.lineTo(width - padding - borderThickness, height - padding - borderThickness);
+            ctx.lineTo(padding + borderThickness, height - padding - borderThickness);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+
+            // Draw the green portion (p * width)
             ctx.fillStyle = 'green';
-            ctx.fill();
+            ctx.fillRect(padding + borderThickness, padding + borderThickness, p * (width - 2 * (padding + borderThickness)), height - 2 * (padding + borderThickness));
 
-            // Draw red fraction of the circle
-            ctx.beginPath();
-            ctx.moveTo(0, 0); // Start at the center
-            ctx.arc(0, 0, radius, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * fraction); // Draw part of the circle
+            // Draw the red portion ((1 - p) * width)
             ctx.fillStyle = 'red';
-            ctx.fill();
-
-            // Reset transformations (important for future drawings)
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.fillRect(padding + borderThickness + p * (width - 2 * (padding + borderThickness)), padding + borderThickness, (1 - p) * (width - 2 * (padding + borderThickness)), height - 2 * (padding + borderThickness));
         }
 
-        // Call function with a fraction between 0 and 1
-        drawCircle(0.3);  // Initial circle
+        // Example usage: draw a rectangle with 0.3 green and 0.7 red
+        drawRectangle(0.9);
 
-        // Function to spin the circle
-        function spin() {
-            rotationSpeed = 0.1;  // Set an initial speed for the rotation
 
-            // Use the requestAnimationFrame method for smooth animations
-            function animate() {
-                rotationAngle += rotationSpeed;  // Update the angle
-                drawCircle(0.3);  // Redraw the circle with the current rotation
-                animationFrameId = requestAnimationFrame(animate);  // Keep animating
-            }
-            animate();
-        }
-
-        // Function to stop the spinning slowly
-        function stopSpin() {
-            let slowDownSpeed = 0.001;
-
-            // Gradually reduce the rotation speed until it stops
-            function slowDown() {
-                if (rotationSpeed > 0) {
-                    rotationSpeed -= slowDownSpeed;  // Reduce speed
-                    rotationAngle += rotationSpeed;  // Update the angle
-                    drawCircle(0.3);  // Redraw the circle
-                    animationFrameId = requestAnimationFrame(slowDown);  // Keep animating
-                } else {
-                    cancelAnimationFrame(animationFrameId);  // Stop the animation
-                }
-            }
-            slowDown();
-        }
-
-        // Start spinning the circle when the page loads
-        spin();
-
-        // Stop spinning after 5 seconds for demonstration
-        setTimeout(stopSpin, 5000);  // Stop after 5 seconds
     </script>
 </body>
 
