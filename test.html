@@ -4,59 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rectangle Example</title>
+    <style>
+        .rectangle {
+            width: 200px;
+            height: 50px;
+            display: flex;
+            border: 2px solid black;
+            position: relative;
+        }
+
+        .cursor {
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            width: 2px;
+            height: 70px;
+            margin-top: -10px;
+            background-color: black;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="myCanvas" width="400" height="200"></canvas>
-
+    <div id="coinFlipContainer"></div>
 
     <script>
         function drawRectangle(p) {
-            // Validate p to make sure it's between 0 and 1
-            if (p < 0 || p > 1) {
-                console.error('p must be between 0 and 1');
-                return;
-            }
+            const container = document.getElementById('coinFlipContainer');
+            container.innerHTML = "";
 
-            // Get the canvas element and its context
-            const canvas = document.getElementById('myCanvas');
-            const ctx = canvas.getContext('2d');
+            const rectangle = document.createElement('div');
+            rectangle.classList.add('rectangle');
 
-            // Set the width and height of the rectangle
-            const width = canvas.width;
-            const height = canvas.height;
+            const greenPart = document.createElement('div');
+            greenPart.style.backgroundColor = "green";
+            greenPart.style.width = `${p * 100}%`;
 
-            // Set the padding and border thickness
-            const padding = 10;
-            const borderThickness = 4;
+            const redPart = document.createElement('div');
+            redPart.style.backgroundColor = "red";
+            redPart.style.width = `${(1 - p) * 100}%`;
 
-            // Draw the border with rounded corners
-            ctx.lineWidth = borderThickness;
-            ctx.strokeStyle = '#333'; // Dark gray color for the border
-            ctx.fillStyle = '#fff'; // White background inside the border
-            ctx.beginPath();
-            ctx.moveTo(padding + borderThickness, padding + borderThickness);
-            ctx.lineTo(width - padding - borderThickness, padding + borderThickness);
-            ctx.lineTo(width - padding - borderThickness, height - padding - borderThickness);
-            ctx.lineTo(padding + borderThickness, height - padding - borderThickness);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.fill();
+            const cursor = document.createElement('div');
+            cursor.id = "cursor";
+            cursor.classList.add('cursor');
 
-            // Draw the green portion (p * width)
-            ctx.fillStyle = 'green';
-            ctx.fillRect(padding + borderThickness, padding + borderThickness, p * (width - 2 * (padding + borderThickness)), height - 2 * (padding + borderThickness));
-
-            // Draw the red portion ((1 - p) * width)
-            ctx.fillStyle = 'red';
-            ctx.fillRect(padding + borderThickness + p * (width - 2 * (padding + borderThickness)), padding + borderThickness, (1 - p) * (width - 2 * (padding + borderThickness)), height - 2 * (padding + borderThickness));
+            rectangle.appendChild(greenPart);
+            rectangle.appendChild(redPart);
+            rectangle.appendChild(cursor);
+            container.appendChild(rectangle);
         }
 
-        // Example usage: draw a rectangle with 0.3 green and 0.7 red
-        drawRectangle(0.9);
+        function animate(p) {
+            const animationDuration = 2000;
+            const rectangleWidth = 200;
+            const interval = 10;
+            const cursor = document.getElementById("cursor");
+
+            let position = Math.floor(Math.random() * rectangleWidth);
+            let step = 1 + Math.floor(Math.random() * 4);
+            if (Math.random() < 0.5) {
+                step *= -1;
+            }
 
 
+            const intervalId = setInterval(() => {
+                position += step;
+
+                if (position > rectangleWidth) {
+                    step *= -1;
+                    position = rectangleWidth;
+                } else if (position < 0) {
+                    step *= -1;
+                    position = 0;
+                }
+
+                cursor.style.left = `${position}px`;
+            }, interval);
+
+
+            var animationDelay = 2000 + Math.floor(Math.random() * 2000);
+            setTimeout(() => { step /= 2; }, animationDelay - 1000);
+            setTimeout(() => { step /= 2; }, animationDelay - 500);
+            setTimeout(() => {
+                clearInterval(intervalId); // Stop the interval
+                let r = position / rectangleWidth;
+                if (r <= p) {
+                    console.log(`GREEN`);
+                } else {
+                    console.log(`RED`);
+                }
+            }, animationDelay);
+        }
+
+        // Example usage: Draw a rectangle with 30% green and 70% red
+        drawRectangle(0.3);
+        animate(0.3);
     </script>
 </body>
 
