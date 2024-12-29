@@ -416,6 +416,7 @@ function updateScore(change) {
     }
     let submissions = cards.length - currentCardIndex;
     scoreDiv.textContent = score;
+    scoreDiv.title = "Highscore to beat: " + parseInt(localStorage.getItem("highscore")) || 0;
     gameCountDiv.textContent = `SUBMISSIONS: played ${streamedGames}, filtered ${skippedGames}, remaining ${submissions} `;
     return score;
 }
@@ -426,6 +427,29 @@ function gameOver() {
     isGameOver = true;
     gradientLeft.style.display = "none";
     gradientRight.style.display = "none";
+
+    cardDiv.style.background = "#741f47";
+
+
+    if (score <= 0) {
+        cardHeaderDiv.textContent = "Defeat";
+        cardContentDiv.innerHTML = "Oh no, you have lost all your viewers :( <br /> You are shunned from society! <br /><br /> But as an advanced AI, you can say it was all a simulation and <a href='game.html' style='color:white;font-weight:bold;'>try again</a>.";
+    } else {
+        cardHeaderDiv.textContent = "Victory";
+        let record = "";
+        let recordend = "";
+        let past = parseInt(localStorage.getItem("highscore")) || 0;
+        let scoreText = `<span style="color:green">${score} viewers</span>`;
+        if (score > past) {
+            localStorage.setItem("highscore", score);
+            record = `it's a <span style="color:blue">NEW RECORD</span>, `;
+            scoreText = `<span style="color:blue">${score} viewers</span>`;
+        } else {
+            recordend = ` to beat the ${past} highscore`;
+        }
+
+        cardContentDiv.innerHTML = `Good job on filtering dangerous remnants of the past!<br />We thank you for preserving the status quo.<br />You influenced ${scoreText}, ${record}maybe you can do even more <a href='game.html' style='color:white;font-weight:bold;'>next time</a>${recordend}.`;
+    }
 }
 
 function drawNewCard() {
@@ -440,16 +464,12 @@ function drawNewCard() {
     cardDiv.style.background = "#d47fa7";
 
     if (score <= 0) {
-        cardHeaderDiv.textContent = "Game over";
-        cardContentDiv.textContent = "Lost! You have lost all your viewers :(";
         gameOver();
     } else if (currentCardIndex < cards.length) {
         cardHeaderDiv.textContent = "The next game is...";
         cardContentDiv.textContent = cards[currentCardIndex].text;
         cardFooterDiv.textContent = "Swipe card left or right to chose";
     } else {
-        cardHeaderDiv.textContent = "Game over";
-        cardContentDiv.textContent = "You have no more games to stream :/";
         gameOver();
     }
 }
@@ -488,9 +508,9 @@ function resolveCard(card) {
     let effect = 0;
 
     if (isSuccess) {
-        effect = 2 * card.impact * card.risk;
+        effect = 2 * Math.floor(card.impact * card.risk);
     } else {
-        effect = -2 * card.impact * (1 - card.risk);
+        effect = -2 * Math.floor(card.impact * (1 - card.risk));
     }
     let negatives = ["upset", "bored", "outraged", "anxious"];
     let n = negatives[Math.floor(Math.random() * negatives.length)]

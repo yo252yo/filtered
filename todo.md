@@ -1,9 +1,7 @@
 add music and sfx
-drag and drop the card
-remember high score
-game over retry
+
 animation for the random coin flip
-victory screen "we thank you for preserving the status quo" or smthing
+
 bug on double click 
 
 
