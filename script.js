@@ -510,3 +510,10 @@ function swipeRight() {
 }
 
 drawNewCard();
+
+function noiseInScore() {
+    let v = Math.floor(Math.random() * 8) - 4;
+    updateScore(v);
+    setTimeout(noiseInScore, 100 + Math.floor(Math.random() * 900));
+}
+noiseInScore();
