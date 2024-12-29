@@ -25,10 +25,24 @@ body {
     text-align: center;
     border-radius: 16px;
     display: block;
-    font-size: 30px;
     font-weight: bold;
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
+
+
+@media (orientation: landscape) {
+    .card {
+        font-size: xx-large;
+    }
+}
+
+
+@media (orientation: portrait) {
+    .card {
+        font-size: large;
+    }
+}
+
 
 #cardHeader {
     font-family: 'Courier New', Courier, monospace;
@@ -103,7 +117,7 @@ body {
 
 #endbutton {
     position: fixed;
-    bottom: 150px;
+    bottom: 200px;
     margin-left: auto;
     margin-right: auto;
 
@@ -133,7 +147,7 @@ body {
 
 #scorebar {
     position: fixed;
-    height: 75px;
+    height: 125px;
     bottom: 0px;
     left: 0px;
     right: 0px;
