@@ -215,6 +215,9 @@ const possibleCards = [
         risk: 0.7
     },
 
+
+    // coal vs water
+    // public space, not everything was privatizes
     // { text: "A board game adaptation of colonial land grabbing", conclusion: "Hits a nerve with many", impact: 800, risk: 0.6 },
     // { text: "A documentary-style game about the Dutch East India Company", conclusion: "Critically acclaimed!", impact: 1000, risk: 0.2 },
     // { text: "A simulation game exploring the role of international banks in shaping global poverty", conclusion: "Draws some controversy", impact: 600, risk: 0.7 },
