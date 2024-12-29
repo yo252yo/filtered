@@ -162,3 +162,22 @@ body {
 #gamecount {
     float: left;
 }
+
+
+.rectangle {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    border: 2px solid black;
+    position: relative;
+}
+
+.cursor {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    width: 2px;
+    height: 70px;
+    margin-top: -10px;
+    background-color: black;
+}

@@ -4,34 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .rectangle {
-            width: 200px;
-            height: 50px;
-            display: flex;
-            border: 2px solid black;
-            position: relative;
-        }
-
-        .cursor {
-            position: absolute;
-            bottom: 0;
-            top: 0;
-            width: 2px;
-            height: 70px;
-            margin-top: -10px;
-            background-color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div id="coinFlipContainer"></div>
 
     <script>
-        function drawRectangle(p) {
+        function drawCoinFlip(p) {
             const container = document.getElementById('coinFlipContainer');
             container.innerHTML = "";
+            container.style.visibility = "visible";
 
             const rectangle = document.createElement('div');
             rectangle.classList.add('rectangle');
@@ -54,7 +37,7 @@
             container.appendChild(rectangle);
         }
 
-        function animate(p) {
+        function animateCoinFlip(p) {
             const animationDuration = 2000;
             const rectangleWidth = 200;
             const interval = 10;
@@ -88,17 +71,27 @@
             setTimeout(() => {
                 clearInterval(intervalId); // Stop the interval
                 let r = position / rectangleWidth;
+
+                var sfw = new Audio();
+                sfw.volume = 0.9;
                 if (r <= p) {
+                    sfw.src = `W.mp3`;
                     console.log(`GREEN`);
                 } else {
+                    sfw.src = `L.mp3`;
                     console.log(`RED`);
                 }
+                sfw.play();
+
+                setTimeout(() => {
+                    document.getElementById('coinFlipContainer').style.visibility = "hidden";
+                }, 1000);
             }, animationDelay);
         }
 
         // Example usage: Draw a rectangle with 30% green and 70% red
-        drawRectangle(0.3);
-        animate(0.3);
+        drawCoinFlip(0.3);
+        animateCoinFlip(0.3);
     </script>
 </body>
 
