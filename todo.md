@@ -1,4 +1,3 @@
-add sfx
 
 animation for the random coin flip
 

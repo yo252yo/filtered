@@ -119,7 +119,6 @@ function endGameButtonPress() {
     if (streamedGames < 3) { return; }
     currentCardIndex = cards.length - 1;
     drawNewCard();
-    endGameButton.style.display = "none";
 }
 
 
@@ -429,12 +428,25 @@ function gameOver() {
     gradientRight.style.display = "none";
 
     cardDiv.style.background = "#741f47";
+    endGameButton.style.display = "none";
 
 
     if (score <= 0) {
+        var sfw = new Audio();
+        sfw.volume = 0.9;
+        let sfxi = Math.floor(Math.random() * 7) + 1;
+        sfw.src = `abort.mp3`;
+        sfw.play();
+
         cardHeaderDiv.textContent = "Defeat";
         cardContentDiv.innerHTML = "Oh no, you have lost all your viewers :( <br /> You are shunned from society! <br /><br /> But as an advanced AI, you can say it was all a simulation and <a href='game.html' style='color:white;font-weight:bold;'>try again</a>.";
     } else {
+        var sfw = new Audio();
+        sfw.volume = 0.9;
+        let sfxi = Math.floor(Math.random() * 7) + 1;
+        sfw.src = `victory.mp3`;
+        sfw.play();
+
         cardHeaderDiv.textContent = "Victory";
         let record = "";
         let recordend = "";
@@ -525,6 +537,11 @@ endGameButton.disabled = true;
 function swipeLeft() {
     console.log("Swiped left, phase " + cardPhase);
 
+    var sfw = new Audio();
+    sfw.volume = 0.9;
+    sfw.src = "filtered.mp3";
+    sfw.play();
+
     if (cardPhase != 2) {
         skippedGames++;
         updateScore(-skipPenalty());
@@ -535,6 +552,12 @@ function swipeLeft() {
 
 function swipeRight() {
     console.log("Swiped right, phase " + cardPhase);
+
+    var sfw = new Audio();
+    sfw.volume = 0.9;
+    let sfxi = Math.floor(Math.random() * 7) + 1;
+    sfw.src = `ok${sfxi}.mp3`;
+    sfw.play();
 
     if (cardPhase == 2) {
         drawNewCard();
@@ -553,3 +576,11 @@ function noiseInScore() {
     setTimeout(noiseInScore, 100 + Math.floor(Math.random() * 900));
 }
 noiseInScore();
+
+
+// feedback from the click on previous iframe
+var sfw = new Audio();
+sfw.volume = 0.9;
+let sfxi = Math.floor(Math.random() * 7) + 1;
+sfw.src = `start.mp3`;
+sfw.play();
