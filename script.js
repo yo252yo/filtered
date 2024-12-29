@@ -308,7 +308,7 @@ const possibleCards = [
     },
     {
         text: "A plague-inc kind of game",
-        conclusion: "Surprisingly, it's not about the pandemic, but about how neoliberal privalization has destroyed what used to be public institutions everywhere.",
+        conclusion: "Surprisingly, it's not about the pandemic, but about how privalization has destroyed what used to be public institutions everywhere.",
         impact: 600,
         risk: 0.2
     },
@@ -394,17 +394,17 @@ function skipPenalty() {
 }
 
 function riskText(risk) {
-    if (risk < 0.2) return `<span style="color:blue">very low</span>`;
-    if (risk < 0.4) return `<span style="color:green">low</span>`;
-    if (risk < 0.6) return `<span style="color:yellow">medium</span>`;
-    if (risk < 0.8) return `<span style="color:orange">high</span>`;
-    return `<span style="color:red">very high</span>`;
+    if (risk < 0.2) return `<span style="color:blue" title="Less than 20% chance of bad outcome.">very low</span>`;
+    if (risk < 0.4) return `<span style="color:green" title="Less than 40% chance of bad outcome.">low</span>`;
+    if (risk < 0.6) return `<span style="color:yellow" title="Around the same chance of bad/good outcome.">medium</span>`;
+    if (risk < 0.8) return `<span style="color:orange" title="Less than 40% chance of good outcome, but it will be really good.">high</span>`;
+    return `<span style="color:red" title="Less than 20% chance of a good outcome, but it will be exceptional.">very high</span>`;
 }
 
 function impactText(impact) {
-    if (impact < 200) return `<span style="color:blue">low</span>`;
-    if (impact < 2000) return `<span style="color:yellow">medium</span>`;
-    return `<span style="color:red">high</span>`;
+    if (impact < 200) return `<span style="color:blue" title="Affects dozens of viewers. Dozens!">low</span>`;
+    if (impact < 2000) return `<span style="color:yellow" title="Affects hundreds of viewers.">medium</span>`;
+    return `<span style="color:red" title="This could make or break your career!">high</span>`;
 }
 
 function updateScore(change) {
@@ -483,7 +483,7 @@ function resolveCard(card) {
     const resultMessage = isSuccess ? "Chat is content!" : `Chat is ${n}!`;
     updateScore(effect);
 
-    cardContentDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "gained" : "lost"} ${Math.abs(effect)} viewers.`;
+    cardContentDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "<span style='color:green'>gained" : "<span style='color:red'>lost"} ${Math.abs(effect)}</span> viewers.`;
 }
 
 function swipeLeft() {

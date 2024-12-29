@@ -9,7 +9,6 @@ victory screen "we thank you for preserving the status quo" or smthing
 bug on double click
 distinguish the 3 card phases, 
 marquee with the topic on the bg
-proba estimates on mouseover of impact
 
 
 
