@@ -300,7 +300,7 @@ const possibleCards = [
     },
     {
         text: "A poetic narrative game about lost loves and friends",
-        conclusion: "Mentions many dead people, but insists that their memories leave on in your actions. Kind of a buzzkill, but seems pretty safe.",
+        conclusion: "Mentions many dead people, but insists that their memories live on in your actions. Kind of a buzzkill, but seems pretty safe.",
         impact: 200,
         risk: 0.1
     },
@@ -527,9 +527,9 @@ function resolvedCard(card, isSuccess) {
     let effect = 0;
 
     if (isSuccess) {
-        effect = 3 * Math.floor(card.impact * card.risk);
+        effect = 6 * Math.floor(card.impact * card.risk);
     } else {
-        effect = -3 * Math.floor(card.impact * (1 - card.risk));
+        effect = -6 * Math.floor(card.impact * (1 - card.risk));
     }
     let negatives = ["upset", "bored", "outraged", "anxious", "vexed", "annoyed", "impatient"];
     let n = negatives[Math.floor(Math.random() * negatives.length)]
