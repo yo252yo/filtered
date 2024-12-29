@@ -22,52 +22,18 @@
     }
   </style>
   <script>
-    // const audioFiles = [
-    //   'files/bgm.ogg',
-    //   'files/sfx/Clicker.ogg',
-    //   'files/sfx/Defeat.ogg',
-    //   'files/sfx/Disaster_huge.ogg',
-    //   'files/sfx/Disaster_small.ogg',
-    //   'files/sfx/Disaster_tiny.ogg',
-    //   'files/sfx/Link.ogg',
-    //   'files/sfx/Policy.ogg',
-    //   'files/sfx/Purchase.ogg',
-    //   'files/sfx/Upgrade.ogg',
-    //   'files/sfx/Victory.ogg',
-    //   'files/sfx/VolumeCheck.ogg',
-    // ];
+    var MUSIC_AUDIO = new Audio();
+    MUSIC_AUDIO.loop = "loop";
+    MUSIC_AUDIO.volume = 0.7;
 
-    // function preloadAudio(files) {
-    //   files.forEach(file => {
-    //     const audio = new Audio(file);
-    //     audio.preload = 'auto';
-    //     // Load the audio file
-    //     audio.load();
-    //   });
-    // }
-    // preloadAudio(audioFiles);
+    MUSIC_AUDIO.src = "bgm.mp3";
 
-
-    // var MUSIC_AUDIO = new Audio();
-    // MUSIC_AUDIO.loop = "loop";
-
-    // function checkVolume() {
-    //   const savedMusicVolume = localStorage.getItem('music_volume');
-    //   if (savedMusicVolume !== null) {
-    //     MUSIC_AUDIO.volume = savedMusicVolume / 100;
-    //   }
-    // }
-    // setInterval(checkVolume, 250);
-
-
-    // MUSIC_AUDIO.src = "files/bgm.ogg";
-
-    // function startMusic() {
-    //   MUSIC_AUDIO.play().catch(function (error) {
-    //     setTimeout(startMusic, 100);
-    //   });
-    // }
-    // startMusic();
+    function startMusic() {
+      MUSIC_AUDIO.play().catch(function (error) {
+        setTimeout(startMusic, 100);
+      });
+    }
+    startMusic();
   </script>
 </head>
 

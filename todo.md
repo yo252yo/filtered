@@ -1,4 +1,4 @@
-add music and sfx
+add sfx
 
 animation for the random coin flip
 
