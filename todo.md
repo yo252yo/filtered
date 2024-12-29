@@ -1,5 +1,4 @@
 
-animation for the random coin flip
 
 bug on double click 
 

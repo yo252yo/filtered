@@ -116,7 +116,7 @@ document.addEventListener('touchstart', (event) => event.preventDefault());
 endGameButton.addEventListener('click', () => endGameButtonPress());
 
 function endGameButtonPress() {
-    if (streamedGames < 3) { return; }
+    if (streamedGames < 4) { return; }
     currentCardIndex = cards.length - 1;
     drawNewCard();
 }
@@ -434,7 +434,6 @@ function gameOver() {
     if (score <= 0) {
         var sfw = new Audio();
         sfw.volume = 0.9;
-        let sfxi = Math.floor(Math.random() * 7) + 1;
         sfw.src = `abort.mp3`;
         sfw.play();
 
@@ -443,7 +442,6 @@ function gameOver() {
     } else {
         var sfw = new Audio();
         sfw.volume = 0.9;
-        let sfxi = Math.floor(Math.random() * 7) + 1;
         sfw.src = `victory.mp3`;
         sfw.play();
 
@@ -502,29 +500,38 @@ function revealCard(card) {
 }
 
 function resolveCard(card) {
+    drawCoinFlip(card);
+    animateCoinFlip(card);
+
+    isGameOver = true;
+    cardDiv.style.visibility = "hidden";
+}
+
+function resolvedCard(card, isSuccess) {
     gradientRightText.textContent = "NEXT";
     gradientLeftText.textContent = "NEXT";
     cardDiv.style.background = "#741f47";
     cardPhase = 2;
+    isGameOver = false;
+    cardDiv.style.visibility = "visible";
 
     cardHeaderDiv.textContent = "Outcome...";
     cardFooterDiv.textContent = "Swipe card left or right for next game";
 
     streamedGames++;
-    if (streamedGames >= 3) {
+    if (streamedGames >= 4) {
         endGameButton.disabled = false;
         endGameButton.textContent = "END STREAM EARLY";
     }
 
-    const isSuccess = Math.random() > card.risk;
     let effect = 0;
 
     if (isSuccess) {
-        effect = 2 * Math.floor(card.impact * card.risk);
+        effect = 3 * Math.floor(card.impact * card.risk);
     } else {
-        effect = -2 * Math.floor(card.impact * (1 - card.risk));
+        effect = -3 * Math.floor(card.impact * (1 - card.risk));
     }
-    let negatives = ["upset", "bored", "outraged", "anxious"];
+    let negatives = ["upset", "bored", "outraged", "anxious", "vexed", "annoyed", "impatient"];
     let n = negatives[Math.floor(Math.random() * negatives.length)]
 
     const resultMessage = isSuccess ? "Chat is content!" : `Chat is ${n}!`;
@@ -569,6 +576,91 @@ function swipeRight() {
 }
 
 drawNewCard();
+
+
+
+
+function drawCoinFlip(card) {
+    const container = document.getElementById('coinFlipContainer');
+    let p = 1 - card.risk;
+    container.innerHTML = "";
+    container.style.visibility = "visible";
+
+    const rectangle = document.createElement('div');
+    rectangle.classList.add('rectangle');
+
+    const greenPart = document.createElement('div');
+    greenPart.style.backgroundColor = "green";
+    greenPart.style.width = `${p * 100}%`;
+
+    const redPart = document.createElement('div');
+    redPart.style.backgroundColor = "red";
+    redPart.style.width = `${(1 - p) * 100}%`;
+
+    const cursor = document.createElement('div');
+    cursor.id = "cursor";
+    cursor.classList.add('cursor');
+
+    rectangle.appendChild(greenPart);
+    rectangle.appendChild(redPart);
+    rectangle.appendChild(cursor);
+    container.appendChild(rectangle);
+}
+
+function animateCoinFlip(card) {
+    const animationDuration = 2000;
+    const rectangleWidth = 200;
+    let p = 1 - card.risk;
+    const interval = 10;
+    const cursor = document.getElementById("cursor");
+
+    let position = Math.floor(Math.random() * rectangleWidth);
+    let step = 1 + Math.floor(Math.random() * 4);
+    if (Math.random() < 0.5) {
+        step *= -1;
+    }
+
+
+    const intervalId = setInterval(() => {
+        position += step;
+
+        if (position > rectangleWidth) {
+            step *= -1;
+            position = rectangleWidth;
+        } else if (position < 0) {
+            step *= -1;
+            position = 0;
+        }
+
+        cursor.style.left = `${position}px`;
+    }, interval);
+
+
+    var animationDelay = 2000 + Math.floor(Math.random() * 2000);
+    setTimeout(() => { step /= 2; }, animationDelay - 1000);
+    setTimeout(() => { step /= 2; }, animationDelay - 500);
+    setTimeout(() => {
+        clearInterval(intervalId); // Stop the interval
+        let r = position / rectangleWidth;
+        var win = false;
+
+        var sfw = new Audio();
+        sfw.volume = 0.9;
+        if (r <= p) {
+            sfw.src = `W.mp3`;
+            win = true;
+        } else {
+            sfw.src = `L.mp3`;
+        }
+        sfw.play();
+
+        setTimeout(() => {
+            document.getElementById('coinFlipContainer').style.visibility = "hidden";
+            resolvedCard(card, win);
+        }, 1000);
+    }, animationDelay);
+}
+
 
 function noiseInScore() {
     let v = Math.floor(Math.random() * 8) - 4;
