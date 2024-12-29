@@ -4,7 +4,6 @@ const cardHeaderDiv = document.getElementById('cardHeader');
 const cardFooterDiv = document.getElementById('cardFooter');
 const endGameButton = document.getElementById('endbutton');
 
-
 const gradientLeft = document.getElementById('gradientLeft');
 const gradientRight = document.getElementById('gradientRight');
 const gradientLeftText = gradientLeft.querySelector('.gradient-text');
@@ -586,6 +585,7 @@ function drawCoinFlip(card) {
     let p = 1 - card.risk;
     container.innerHTML = "";
     container.style.visibility = "visible";
+    document.getElementById('coinFlipGif').style.visibility = "visible";
 
     const rectangle = document.createElement('div');
     rectangle.classList.add('rectangle');
@@ -657,6 +657,7 @@ function animateCoinFlip(card) {
 
         setTimeout(() => {
             document.getElementById('coinFlipContainer').style.visibility = "hidden";
+            document.getElementById('coinFlipGif').style.visibility = "hidden";
             resolvedCard(card, win);
         }, 1000);
     }, animationDelay);
