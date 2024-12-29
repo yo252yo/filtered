@@ -1,4 +1,3 @@
-
 const cardDiv = document.getElementById('card');
 const cardContentDiv = document.getElementById('cardContent');
 const cardHeaderDiv = document.getElementById('cardHeader');
@@ -29,18 +28,18 @@ resetCardPosition();
 let startX = 0;
 let currentX = 0;
 
-cardDiv.addEventListener('mousedown', (event) => {
+function startDrag(x) {
     if (isDragging || !isDraggable || isGameOver) return;
 
     isDragging = true;
-    startX = event.clientX;
+    startX = x;
     cardDiv.style.transition = 'none';
-});
+}
 
-document.addEventListener('mousemove', (event) => {
+function moveDrag(x) {
     if (!isDragging) return;
 
-    currentX = event.clientX;
+    currentX = x;
     const dx = currentX - startX;
     const rotation = dx / window.innerWidth * 30; // Maximum rotation of 30 degrees
 
@@ -58,9 +57,9 @@ document.addEventListener('mousemove', (event) => {
         gradientRight.style.opacity = 0;
         gradientLeftText.style.color = `rgba(50, 0, 0, ${0.3 + 0.7 * opacity})`;
     }
-});
+}
 
-document.addEventListener('mouseup', (event) => {
+function endDrag() {
     if (!isDragging) return;
 
     isDragging = false;
@@ -75,7 +74,6 @@ document.addEventListener('mouseup', (event) => {
     gradientRightText.style.color = 'rgba(0, 0, 0, 0.3)';
 
     if (Math.abs(dx) > threshold) {
-        //  cardDiv.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
         cardDiv.style.opacity = 0;
 
         if (dx > 0) {
@@ -89,13 +87,29 @@ document.addEventListener('mouseup', (event) => {
     } else {
         resetCardPosition(true);
     }
+}
+
+// Mouse events
+cardDiv.addEventListener('mousedown', (event) => startDrag(event.clientX));
+document.addEventListener('mousemove', (event) => moveDrag(event.clientX));
+document.addEventListener('mouseup', endDrag);
+
+// Touch events
+cardDiv.addEventListener('touchstart', (event) => {
+    if (event.touches.length === 1) {
+        startDrag(event.touches[0].clientX);
+    }
 });
+document.addEventListener('touchmove', (event) => {
+    if (event.touches.length === 1) {
+        moveDrag(event.touches[0].clientX);
+    }
+});
+document.addEventListener('touchend', endDrag);
 
 // Prevent text selection during drag
-document.addEventListener('mousedown', (event) => {
-    event.preventDefault();
-});
-
+document.addEventListener('mousedown', (event) => event.preventDefault());
+document.addEventListener('touchstart', (event) => event.preventDefault());
 
 
 
