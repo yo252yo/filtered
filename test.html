@@ -4,12 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circle with Fraction Filled</title>
+    <title>Spinning Circle with Fraction</title>
 </head>
 
 <body>
     <canvas id="circleCanvas" width="400" height="400"></canvas>
     <script>
+        let rotationAngle = 0;  // Keeps track of the rotation
+        let rotationSpeed = 0;  // Initial speed of rotation (0 means no rotation)
+        let animationFrameId;
+
         function drawCircle(fraction) {
             if (fraction < 0 || fraction > 1) {
                 console.error("Fraction must be between 0 and 1");
@@ -25,22 +29,66 @@
             // Clear canvas before drawing
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // Move the origin of the canvas to the center of the circle
+            ctx.translate(centerX, centerY);
+            ctx.rotate(rotationAngle);  // Apply rotation
+
             // Draw full green circle
             ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
             ctx.fillStyle = 'green';
             ctx.fill();
 
             // Draw red fraction of the circle
             ctx.beginPath();
-            ctx.moveTo(centerX, centerY); // Start at the center
-            ctx.arc(centerX, centerY, radius, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * fraction); // Draw part of the circle
+            ctx.moveTo(0, 0); // Start at the center
+            ctx.arc(0, 0, radius, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * fraction); // Draw part of the circle
             ctx.fillStyle = 'red';
             ctx.fill();
+
+            // Reset transformations (important for future drawings)
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
 
         // Call function with a fraction between 0 and 1
-        drawCircle(0.6);  // Example: 30% of the circle will be red
+        drawCircle(0.3);  // Initial circle
+
+        // Function to spin the circle
+        function spin() {
+            rotationSpeed = 0.1;  // Set an initial speed for the rotation
+
+            // Use the requestAnimationFrame method for smooth animations
+            function animate() {
+                rotationAngle += rotationSpeed;  // Update the angle
+                drawCircle(0.3);  // Redraw the circle with the current rotation
+                animationFrameId = requestAnimationFrame(animate);  // Keep animating
+            }
+            animate();
+        }
+
+        // Function to stop the spinning slowly
+        function stopSpin() {
+            let slowDownSpeed = 0.001;
+
+            // Gradually reduce the rotation speed until it stops
+            function slowDown() {
+                if (rotationSpeed > 0) {
+                    rotationSpeed -= slowDownSpeed;  // Reduce speed
+                    rotationAngle += rotationSpeed;  // Update the angle
+                    drawCircle(0.3);  // Redraw the circle
+                    animationFrameId = requestAnimationFrame(slowDown);  // Keep animating
+                } else {
+                    cancelAnimationFrame(animationFrameId);  // Stop the animation
+                }
+            }
+            slowDown();
+        }
+
+        // Start spinning the circle when the page loads
+        spin();
+
+        // Stop spinning after 5 seconds for demonstration
+        setTimeout(stopSpin, 5000);  // Stop after 5 seconds
     </script>
 </body>
 
