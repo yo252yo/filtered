@@ -380,7 +380,7 @@ function getRandomCards(cards, num) {
 const cards = getRandomCards(possibleCards, 10);
 
 let currentCardIndex = -1;
-let score = 8000;
+let score = 6000;
 let streamedGames = 0;
 let skippedGames = 0;
 
@@ -485,7 +485,13 @@ function resolveCard(card) {
     }
 
     const isSuccess = Math.random() > card.risk;
-    const effect = isSuccess ? card.impact : -2 * card.impact;
+    let effect = 0;
+
+    if (isSuccess) {
+        effect = 2 * card.impact * card.risk;
+    } else {
+        effect = -2 * card.impact * (1 - card.risk);
+    }
     let negatives = ["upset", "bored", "outraged", "anxious"];
     let n = negatives[Math.floor(Math.random() * negatives.length)]
 
