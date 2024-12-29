@@ -555,7 +555,7 @@ function swipeRight() {
 
     var sfw = new Audio();
     sfw.volume = 0.9;
-    let sfxi = Math.floor(Math.random() * 7) + 1;
+    let sfxi = Math.floor(Math.random() * 6) + 1;
     sfw.src = `ok${sfxi}.mp3`;
     sfw.play();
 
