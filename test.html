@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle with Fraction Filled</title>
+</head>
+
+<body>
+    <canvas id="circleCanvas" width="400" height="400"></canvas>
+    <script>
+        function drawCircle(fraction) {
+            if (fraction < 0 || fraction > 1) {
+                console.error("Fraction must be between 0 and 1");
+                return;
+            }
+
+            const canvas = document.getElementById('circleCanvas');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 150;
+
+            // Clear canvas before drawing
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw full green circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'green';
+            ctx.fill();
+
+            // Draw red fraction of the circle
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY); // Start at the center
+            ctx.arc(centerX, centerY, radius, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * fraction); // Draw part of the circle
+            ctx.fillStyle = 'red';
+            ctx.fill();
+        }
+
+        // Call function with a fraction between 0 and 1
+        drawCircle(0.6);  // Example: 30% of the circle will be red
+    </script>
+</body>
+
+</html>
