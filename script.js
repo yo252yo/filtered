@@ -357,20 +357,17 @@ const possibleCards = [
 ];
 
 
-// Function to generate a random list without duplicates
 function getRandomCards(cards, num) {
     if (num > cards.length) {
         throw new Error("Requested more cards than available in the deck");
     }
 
-    // Shuffle the array using Fisher-Yates algorithm
     const shuffled = [...cards];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const randomIndex = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
     }
 
-    // Return the first `num` elements
     return shuffled.slice(0, num);
 }
 
@@ -435,6 +432,7 @@ function drawNewCard() {
     updateScore();
 
     cardFooterDiv.textContent = "heart";
+    cardDiv.style.background = "#d47fa7";
 
     if (score <= 0) {
         cardHeaderDiv.textContent = "Game over";
@@ -453,6 +451,7 @@ function drawNewCard() {
 
 function revealCard(card) {
     cardPhase = 1;
+    cardDiv.style.background = "#a44f77";
     gradientRightText.textContent = "PLAY";
     gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " 👤)";
 
@@ -468,6 +467,7 @@ function revealCard(card) {
 function resolveCard(card) {
     gradientRightText.textContent = "NEXT";
     gradientLeftText.textContent = "NEXT";
+    cardDiv.style.background = "#741f47";
     cardPhase = 2;
 
     cardHeaderDiv.textContent = "Outcome...";

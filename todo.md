@@ -6,8 +6,7 @@ make viewer count less round
 animation for the random coin flip
 add a button to end stream after 5 games
 victory screen "we thank you for preserving the status quo" or smthing
-bug on double click
-distinguish the 3 card phases, 
+bug on double click 
 marquee with the topic on the bg
 
 
