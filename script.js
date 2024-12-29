@@ -2,6 +2,8 @@ const cardDiv = document.getElementById('card');
 const cardContentDiv = document.getElementById('cardContent');
 const cardHeaderDiv = document.getElementById('cardHeader');
 const cardFooterDiv = document.getElementById('cardFooter');
+const endGameButton = document.getElementById('endbutton');
+
 
 const gradientLeft = document.getElementById('gradientLeft');
 const gradientRight = document.getElementById('gradientRight');
@@ -111,11 +113,14 @@ document.addEventListener('touchend', endDrag);
 document.addEventListener('mousedown', (event) => event.preventDefault());
 document.addEventListener('touchstart', (event) => event.preventDefault());
 
+endGameButton.addEventListener('click', () => endGameButtonPress());
 
-
-
-
-
+function endGameButtonPress() {
+    if (streamedGames < 3) { return; }
+    currentCardIndex = cards.length - 1;
+    drawNewCard();
+    endGameButton.style.display = "none";
+}
 
 
 
@@ -474,6 +479,10 @@ function resolveCard(card) {
     cardFooterDiv.textContent = "Swipe card left or right for next game";
 
     streamedGames++;
+    if (streamedGames >= 3) {
+        endGameButton.disabled = false;
+        endGameButton.textContent = "END STREAM EARLY";
+    }
 
     const isSuccess = Math.random() > card.risk;
     const effect = isSuccess ? card.impact : -2 * card.impact;
@@ -485,6 +494,7 @@ function resolveCard(card) {
 
     cardContentDiv.innerHTML = `${resultMessage} <hr /> You ${isSuccess ? "<span style='color:green'>gained" : "<span style='color:red'>lost"} ${Math.abs(effect)}</span> viewers.`;
 }
+endGameButton.disabled = true;
 
 function swipeLeft() {
     console.log("Swiped left, phase " + cardPhase);
