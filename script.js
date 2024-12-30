@@ -553,7 +553,7 @@ function resolvedCard(card, isSuccess) {
     if (isSuccess) {
         effect = 4 * Math.floor(card.impact * card.risk);
     } else {
-        effect = -4 * Math.floor(card.impact * (1 - card.risk));
+        effect = -2 * Math.floor(card.impact * (1 - card.risk));
     }
     let negatives = ["upset", "bored", "outraged", "anxious", "vexed", "annoyed", "impatient"];
     let n = negatives[Math.floor(Math.random() * negatives.length)]
