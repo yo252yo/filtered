@@ -32,7 +32,7 @@ body {
 
 @media (orientation: landscape) {
     .card {
-        font-size: xx-large;
+        font-size: x-large;
     }
 }
 
@@ -49,7 +49,7 @@ body {
     font-size: small;
     margin-top: -20px;
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 #cardFooter {
