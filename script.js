@@ -154,7 +154,7 @@ const possibleCards = [
     },
     {
         text: "A remake of an old game jam entry",
-        conclusion: "Fits the theme, but isn’t it a bit... boring? Chat might mind.",
+        conclusion: "Fits the theme, but isn’t it a bit... boring?<br />Chat might mind.",
         impact: 100,
         risk: 0.4
     },
@@ -214,31 +214,31 @@ const possibleCards = [
     },
     {
         text: "An arthouse game celebrating social progress",
-        conclusion: "Violent labor movements built much of it. Hope that’s distant enough.",
+        conclusion: "Violent labor movements built much of it.<br />Hope that’s distant enough.",
         impact: 1500,
         risk: 0.2
     },
     {
         text: "A 'spot the difference' game: 1930s vs. 2020s",
-        conclusion: "Focused on neonazi groups. Yep, remnants of the past.",
+        conclusion: "Focused on neonazi groups.<br />Yep, remnants of the past.",
         impact: 3000,
         risk: 0.9
     },
     {
         text: "A murder mystery game",
-        conclusion: "Based on actual documents of real-world corporate corruption. Is it ok if it's big money?",
+        conclusion: "Based on actual documents of real-world corporate corruption.<br />Is it ok if it's big money?",
         impact: 1000,
         risk: 0.7
     },
     {
         text: "A sci-fi archeology game where aliens study humans",
-        conclusion: "Nothing is left of mankind except for traces of mass extinction. Kind of a bummer.",
+        conclusion: "Nothing is left of mankind except for traces of mass extinction.<br />Kind of a bummer.",
         impact: 600,
         risk: 0.2
     },
     {
         text: "A puzzle game like Chants of Sennaar where you decode ancient texts",
-        conclusion: "Lost concepts of collective governance emerge. Nerdy, political. Boring?",
+        conclusion: "Lost concepts of collective governance emerge.<br />Nerdy, political.<br />Boring?",
         impact: 1500,
         risk: 0.1
     },
@@ -310,7 +310,7 @@ const possibleCards = [
     },
     {
         text: "A time-loop investigation game",
-        conclusion: "Each loop is a generation passing down trauma. The player needs to break the cycle. Grim but hopeful.",
+        conclusion: "Each loop is a generation passing down trauma.<br />The player needs to break the cycle.<br />Grim but hopeful.",
         impact: 400,
         risk: 0.4
     },
@@ -328,7 +328,7 @@ const possibleCards = [
     },
     {
         text: "A Sims-like game",
-        conclusion: "You cannot win the game if you pick the wrong race or gender. What a waste of time...",
+        conclusion: "You cannot win the game if you pick the wrong race or gender.<br />What a waste of time...",
         impact: 900,
         risk: 0.6
     },
@@ -376,7 +376,7 @@ const possibleCards = [
     },
     {
         text: "A hospital management game",
-        conclusion: "You sort patients into pathological or not. Conversion therapy, systemic causes... turns out the definition of health is political.",
+        conclusion: "You sort patients into pathological or not.<br />Conversion therapy, systemic causes...<br />turns out the definition of health is political.",
         impact: 1200,
         risk: 0.3
     },
