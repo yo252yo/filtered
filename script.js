@@ -304,7 +304,7 @@ const possibleCards = [
     },
     {
         text: "A Plague Inc.-style game",
-        conclusion: "Surprisingly not about a pandemic, but about how privalization has destroyed what used to be public institutions everywhere.",
+        conclusion: "Surprisingly not about a pandemic, but about how privalization spread and destroyed public institutions everywhere.",
         impact: 600,
         risk: 0.2
     },
@@ -350,7 +350,38 @@ const possibleCards = [
         impact: 800,
         risk: 0.3
     },
+    {
+        text: "A cozy game about running a small coffee shop",
+        conclusion: "It gradually uuncovers the violent histories of plantations, forced labor, and colonial trade that make your coffee possible.",
+        impact: 1200,
+        risk: 0.5
+    },
+    {
+        text: "A photography sim where you document wildlife",
+        conclusion: "Plot twist, all of those species are extinct already.",
+        impact: 600,
+        risk: 0.7
+    },
+    {
+        text: "A card game about historical revolutions",
+        conclusion: "Focuses on bloody revolts that were violently supressed from standard narratives like the Haitian revolution.",
+        impact: 1200,
+        risk: 0.4
+    },
+    {
+        text: "A soccer game about the World Cup!",
+        conclusion: "Blimey! It’s actually about how the tournament leaves ruins, evictions and exploitation everywhere it goes. Goal?",
+        impact: 900,
+        risk: 0.7
+    },
+    {
+        text: "A hospital management game",
+        conclusion: "You sort patients into pathological or not. Conversion therapy, systemic causes... turns out the definition of health is political.",
+        impact: 1200,
+        risk: 0.3
+    },
 ];
+
 
 
 
