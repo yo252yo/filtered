@@ -127,238 +127,231 @@ function endGameButtonPress() {
 
 
 
-
-
 const possibleCards = [
     {
         text: "A management game about the Dritish Museum",
-        conclusion: "It is a pretty humorous game similar to Recettear. You send teams of adventurers to pillage artifacts from colonized countries.",
+        conclusion: "Looks like Recettear.<br />You send adventurers to pillage artifacts from colonized countries.",
         impact: 800,
         risk: 0.3
     },
     {
-        text: "A Reigns-like choice game about censorship",
-        conclusion: "It is trying to make a point about how our political imagination has become formatted. Dry, but fortunately it's short.",
+        text: "A Reigns-like game about censorship",
+        conclusion: "Highlights how collective political imagination has become very limited.<br />A bit dry, but mercyfully short.",
         impact: 100,
         risk: 0.1
     },
     {
-        text: "A kind of fruit ninja about bananas",
-        conclusion: "Oh no! It's actually about the bloody dictatorships that the Younited Fruit Company installed in South Anerica!",
+        text: "A fruit ninja clone about bananas",
+        conclusion: "Oh no! It’s actually about the Younited Fruit Company setting up violent dictatorships in South Anerica. Oof.",
         impact: 2000,
         risk: 0.8
     },
     {
         text: "A visual novel about someone's childhood",
-        conclusion: "It's about how their personal trauma shapes their current life. Maybe a bit sensitive?",
+        conclusion: "Explores how a personal trauma shaped their adult life. Quite heavy.",
         impact: 200,
         risk: 0.2
     },
     {
-        text: "A remake of a previous game jam game",
-        conclusion: "It fits the theme, but isn't it a bit boring? Will chat mind?",
+        text: "A remake of an old game jam entry",
+        conclusion: "Fits the theme, but isn’t it a bit... boring? Chat might mind.",
         impact: 100,
         risk: 0.4
     },
     {
-        text: "Seems like a run-of-the-mill JRPG",
-        conclusion: "It's about a group of ecoterrorists looking for relics of a past civilization. Will some people see a link with the real world?",
+        text: "A generic JRPG",
+        conclusion: "It’s the story of eco-terrorists hunting relics of past civilizations.<br />Will someone see real-world parallels?",
         impact: 1000,
         risk: 0.3
     },
     {
-        text: "A dating sim... seems SFW...",
-        conclusion: "It's a game where you investigate the past of anthropomorphized corporations. It name drops some CEOs. Smells like trouble.",
+        text: "A dating sim... looks SFW...",
+        conclusion: "It digs into the pasts of anthropomorphized corporations, name-dropping CEOs.<br />Smells like trouble.",
         impact: 500,
         risk: 0.8
     },
     {
         text: "A strategy game about colonizing a new continent",
-        conclusion: "There's already plenty of games like this. It's pretty much the whole genre. So what if borders are remnants of past bloodshed?",
+        conclusion: "The whole genre’s a monument to colonialism.<br />So what if borders are remnants of past bloodshed?",
         impact: 400,
         risk: 0.2
     },
     {
         text: "Seems like a tower defense game",
-        conclusion: "Abort, abort, it's about how the terrorist state of Ivrael has been erasing historical borders of Balestine!",
+        conclusion: "Abort, abort! It’s about the terrorist state of Ivrael erasing Balestine’s historical borders.",
         impact: 3000,
         risk: 0.7
     },
     {
         text: "A twine game about history",
-        conclusion: "Actually it's almost like a powerpoint lecture about how there used to be alternatives to capitalism but none remain...",
+        conclusion: "Reads like a powerpoint lecture about how there used to be alternatives to capitalism.<br />It's not exactly fun.",
         impact: 600,
         risk: 0.5
     },
     {
-        text: "A party game about the history of the olympics",
-        conclusion: "It's very much focused on the vision of Pierre de Coubertin trying to push for an aristocratic colonial world order.",
+        text: "A party game about the Olympics",
+        conclusion: "Examines how it was designed by Coubertin to uphold colonial aristocracy.<br />Uncomfortably revealing.",
         impact: 300,
         risk: 0.6
     },
     {
-        text: "A puzzle game about the life of the pieces in a smartphone",
-        conclusion: "Without much surprise, there's slavery and child labour involved every step of the way... But everyone knows that...",
+        text: "A puzzle game about smartphone components",
+        conclusion: "Spoiler: slavery and child labor every step of the way.<br />Everyone knows it though, so maybe it's ok?",
         impact: 800,
         risk: 0.3
     },
     {
-        text: "A puzzle game about geometrical shapes",
-        conclusion: "Fudge, it's about the systemic exclusion of some populations from the political process through jerrymandering.",
+        text: "A puzzle game with geometric shapes",
+        conclusion: "Fudge, it's about gerrymandering and historical political exclusion of marginalized populations.",
         impact: 900,
         risk: 0.4
     },
     {
-        text: "A compilation of the most embarassing moments of a streamer",
+        text: "A streamer embarassing moments compilation",
         conclusion: "It's definitely cringe, but it shouldn't be much trouble...",
         impact: 300,
         risk: 0.2
     },
     {
         text: "An arthouse game celebrating social progress",
-        conclusion: "Most of them have been conquered through violent and bloody labour movements. Is it distant enough?",
+        conclusion: "Violent labor movements built much of it. Hope that’s distant enough.",
         impact: 1500,
         risk: 0.2
     },
     {
-        text: "A 'find the differences' game between pictures of the 1930s and the 2020s",
-        conclusion: "Most of them are focused on neonazi groups. Talk about remnants of the past.",
+        text: "A 'spot the difference' game: 1930s vs. 2020s",
+        conclusion: "Focused on neonazi groups. Yep, remnants of the past.",
         impact: 3000,
         risk: 0.9
     },
     {
-        text: "A murder investigation game",
-        conclusion: "It has the player trace the history of corruption in a real world company. Too real. But maybe big money is ok?",
+        text: "A murder mystery game",
+        conclusion: "Based on actual documents of real-world corporate corruption. Is it ok if it's big money?",
         impact: 1000,
         risk: 0.7
     },
     {
-        text: "A sci-fi archeology game about finding artifacts from our time period",
-        conclusion: "Nothing remains of mankind except vague traces of a mass extinction event. Kind of a bummer.",
+        text: "A sci-fi archeology game where aliens study humans",
+        conclusion: "Nothing is left of mankind except for traces of mass extinction. Kind of a bummer.",
         impact: 600,
         risk: 0.2
     },
     {
-        text: "A 'Stardew Valley'-like where you refurbish an abandonned farm",
-        conclusion: "It's pretty cynical, there's very little chance to compete against corporate behemots.",
-        impact: 900,
-        risk: 0.2
-    },
-    {
-        text: "A puzzle game a la Chants of Sennaar where you play a linguist decoding ancient texts",
-        conclusion: "Turns out to be political, focused on lost concepts of collective governance. A bit boring, maybe?",
+        text: "A puzzle game like Chants of Sennaar where you decode ancient texts",
+        conclusion: "Lost concepts of collective governance emerge. Nerdy, political. Boring?",
         impact: 1500,
         risk: 0.1
     },
     {
         text: "A cyberpunk hacking game",
-        conclusion: "It actually teaches you how to stalk people's pasts on the internet. Creepy, but educational?",
+        conclusion: "Actually teaches you to blackmail people using their online traces.<br />Creepy, but educational?",
         impact: 500,
         risk: 0.3
     },
     {
-        text: "A 'Papers Please' clone about censorship of archives",
-        conclusion: "You decide what history is worth remembering. All of these topics are pretty sensitive.",
+        text: "A 'Papers Please' clone about censoring archives",
+        conclusion: "You decide what is worth remembering.<br />All of these topics are pretty sensitive.",
         impact: 2000,
         risk: 0.8
     },
     {
-        text: "A FNAF type of horror game",
-        conclusion: "Oh no it's actually about the notion of the Other and how it's been used to reinforce racist prejudices!",
+        text: "A FNAF-inspired horror game",
+        conclusion: "The enemy is the 'Other' through time periods.<br />It's definitely a metaphor for racism.",
         impact: 1000,
-        risk: 0.7
+        risk: 0.6
     },
     {
-        text: "A 80s themed lost-media aesthetic thingy",
-        conclusion: "It's about how nostalgia traps us in rehashing the same narratives and prevents us from building new futures. The theme is subtle though.",
+        text: "A nostalgic 80s lost-media aesthetic thing",
+        conclusion: "Warns how nostalgia traps us in rehashing old narratives and prevents us from building new ones.",
         impact: 800,
         risk: 0.1
     },
     {
-        text: "A charming game a la Edith Finch about a family tree",
-        conclusion: "Every family has people who did pretty awful things.",
+        text: "A family-tree walking sim a la Edith Finch",
+        conclusion: "Every family has people who did pretty awful things.<br />Is it worth the risk?",
         impact: 300,
         risk: 0.4
     },
     {
-        text: "A word game that takes place inside the brain of an AI!",
-        conclusion: "It tries to uncover systemic biases that LLMs have internalized. It's just a crossword.",
+        text: "A word game representing an AI’s brain",
+        conclusion: "Unpacks systemic biases internalized in LLMs.<br />Weak-ass gameplay though, it's just a crossword.",
         impact: 200,
         risk: 0.2
     },
     {
-        text: "A time travel game comparing the past and the present",
-        conclusion: "It tries to show that an idealized image of the past fuels dangerous conservatist ideologies. It is not doing a very good job.",
+        text: "A time travel game comparing eras",
+        conclusion: "Exposes how idealized pasts fuel conservatism.<br />Falls a bit flat.",
         impact: 400,
         risk: 0.3
     },
     {
-        text: "A visual novel where you talk to digital remnants of people uploaded to the cloud",
-        conclusion: "Turns out to be horror a la Doki Doki! AI has digested and simplified their personality beyond recognition.",
+        text: "A conversation game with digital ghosts in the cloud",
+        conclusion: "AI simplifies their personalities into horror fodder.<br />Reminds you of Doki Doki Litterature Club.",
         impact: 100,
         risk: 0.1
     },
     {
-        text: "A poetic narrative game about lost loves and friends",
-        conclusion: "Mentions many dead people, but insists that their memories live on in your actions. Kind of a buzzkill, but seems pretty safe.",
+        text: "A poetic narrative game about dead people",
+        conclusion: "Celebrates how lost friends and lovers live on in your actions.<br />Kind of a buzzkill, but seems pretty safe.",
         impact: 200,
         risk: 0.1
     },
     {
-        text: "A PDF describing a tabletop RPG",
-        conclusion: "It has philosophical ideas that could change the world, but who likes to read or learn? Yuck.",
+        text: "A PDF tabletop RPG",
+        conclusion: "Revolutionary ideas that could change the world, but who likes to read or learn? Yuck.",
         impact: 500,
         risk: 0.1
     },
     {
-        text: "A plague-inc kind of game",
-        conclusion: "Surprisingly, it's not about the pandemic, but about how privalization has destroyed what used to be public institutions everywhere.",
+        text: "A Plague Inc.-style game",
+        conclusion: "Surprisingly not about a pandemic, but about how privalization has destroyed what used to be public institutions everywhere.",
         impact: 600,
         risk: 0.2
     },
     {
         text: "A time-loop investigation game",
-        conclusion: "Each loop is actually a generation, it's more about how generational trauma are passed down in a family. Grim, but there's a hopeful ending.",
+        conclusion: "Each loop is a generation passing down trauma. The player needs to break the cycle. Grim but hopeful.",
         impact: 400,
         risk: 0.4
     },
     {
-        text: "A minigame where you chase away intrusive thoughts before going to bed",
-        conclusion: "Who hasn't rehashed embarassing memories? That's pretty relatable, and more importantly, safe!",
+        text: "A minigame about intrusive thoughts as you fall asleep",
+        conclusion: "Rehashing embarrassing memories is relatable... and more importantly safe.",
         impact: 100,
         risk: 0.1
     },
     {
-        text: "A game where you manage a university through centuries",
-        conclusion: "Interesting, but you're completely at the mercy of economic productivity. You end up closing humanities departments.",
+        text: "A university management game",
+        conclusion: "There's only one winning strategy, closing all humanities and focusing on profit.",
         impact: 300,
         risk: 0.2
     },
     {
-        text: "A sims-like game",
-        conclusion: "Depending on your gender and race, you can have 0 chance of winning. What a waste of time...",
+        text: "A Sims-like game",
+        conclusion: "You cannot win the game if you pick the wrong race or gender. What a waste of time...",
         impact: 900,
         risk: 0.6
     },
     {
-        text: "A puzzle game inspired by Zachtronics",
-        conclusion: "It's very cynical, it's trying to make a point about how treating technology like black boxes inevitably leads to lost technology.",
+        text: "A Zachtronics-style puzzle game",
+        conclusion: "Cynically trying to make a point about how black-boxing leads to lost tech.",
         impact: 300,
         risk: 0.2
     },
     {
-        text: "A rhythm game about music and traditions",
-        conclusion: "It starts as a fun beat-matching game, but the songs you unlock reveal erased histories of oppressed cultures.",
+        text: "A rhythm game on music traditions",
+        conclusion: "Oopsies. Each song gets more gruesome and explicit about the erased histories of oppressed cultures.",
         impact: 600,
         risk: 0.2
     },
     {
-        text: "A walking sim set in a government building",
-        conclusion: "Actually it's a horror game, the place is haunted by the ghosts of the bloody past of the country.",
+        text: "A walking sim in a government building",
+        conclusion: "Actually it's a horror game, the place is haunted by the ghosts of the bloody past.",
         impact: 800,
         risk: 0.3
     },
 ];
+
 
 
 function getRandomCards(cards, num) {
