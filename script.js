@@ -490,7 +490,7 @@ function revealCard(card) {
     gradientRightText.textContent = "PLAY";
     gradientLeftText.textContent = "ABORT (-" + skipPenalty() + " 👤)";
 
-    cardHeaderDiv.textContent = "At first glance...";
+    cardHeaderDiv.textContent = "Opening the game...";
     cardFooterDiv.textContent = "Swipe card left or right to confirm";
 
     cardContentDiv.innerHTML = `
@@ -515,7 +515,7 @@ function resolvedCard(card, isSuccess) {
     isGameOver = false;
     cardDiv.style.visibility = "visible";
 
-    cardHeaderDiv.textContent = "Outcome...";
+    cardHeaderDiv.textContent = "Playing it...";
     cardFooterDiv.textContent = "Swipe card left or right for next game";
 
     streamedGames++;
